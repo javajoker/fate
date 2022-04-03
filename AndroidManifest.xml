@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infoecos.cn.destiny.birth"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.PreferenceInfo"
+            android:label="Preference" >
+        </activity>
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.BaseInfo"
+            android:label="Base" >
+        </activity>
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.DestinyInfo"
+            android:label="Destiny" >
+        </activity>
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.BodyInfo"
+            android:label="Body" >
+        </activity>
+        <activity
+            android:name="com.infoecos.cn.destiny.app.ui.FamilyInfo"
+            android:label="Family" >
+        </activity>
+    </application>
+
+</manifest>

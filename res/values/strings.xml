@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="gender">Male?</string>
+	<string name="app_name">四柱预测</string>
+	<string name="search">搜: 年份</string>
+</resources>

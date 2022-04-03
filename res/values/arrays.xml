@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="gender_list_preference">
+		<item>男</item>
+		<item>女</item>
+	</string-array>
+	<string-array name="gendervalue_list_preference">
+		<item>true</item>
+		<item>false</item>
+	</string-array>
+	<string-array name="timezone_list_preference">
+		<item>CCT - 中国沿海时间(北京时间)</item>
+		<item>CCDT - 北京夏令时</item>
+		<item>NZDT - 新西兰夏令时</item>
+		<item>IDLE - 国际日期变更线,东边</item>
+		<item>NZST - 新西兰标准时间</item>
+		<item>NZT - 新西兰时间</item>
+		<item>AESST - 澳大利亚东部夏时制</item>
+		<item>CST(ACSST) - 中澳大利亚标准时间</item>
+		<item>CADT - 中澳大利亚夏时制</item>
+		<item>SADT - 南澳大利亚夏时制</item>
+		<item>EST(EAST) - 东澳大利亚标准时间</item>
+		<item>GST - 关岛标准时间</item>
+		<item>LIGT - 澳大利亚墨尔本时间</item>
+		<item>CAST - 中澳大利亚标准时间</item>
+		<item>SAT(SAST) - 南澳大利亚标准时间</item>
+		<item>WDT(AWSST) - 澳大利亚西部标准夏令时</item>
+		<item>JST - 日本标准时间，(USSR Zone 8）</item>
+		<item>KST - 韩国标准时间</item>
+		<item>MT - 毛里求斯时间</item>
+		<item>WST(AWST) - 澳大利亚西部标准时间</item>
+		<item>JT - 爪哇时间</item>
+		<item>IT - 伊朗时间</item>
+		<item>BT - 巴格达时间</item>
+		<item>EETDST - 东欧夏时制</item>
+		<item>CETDST - 中欧夏时制</item>
+		<item>EET - 东欧，(USSR Zone 1）</item>
+		<item>FWT - 法国夏时制</item>
+		<item>IST - 以色列标准时间</item>
+		<item>MEST - 中欧夏时制</item>
+		<item>METDST - 中欧白昼时间</item>
+		<item>SST - 瑞典夏时制</item>
+		<item>BST - 英国夏时制</item>
+		<item>CET - 中欧时间</item>
+		<item>DNT - 丹麦标准时间Dansk Normal Tid</item>
+		<item>FST - 法国冬时制</item>
+		<item>MET - 中欧时间</item>
+		<item>MEWT - 中欧冬时制</item>
+		<item>MEZ - 中欧时区</item>
+		<item>NOR - 挪威标准时间</item>
+		<item>SET - 塞舌尔时间Seychelles Time</item>
+		<item>SWT - 瑞典冬时制</item>
+		<item>WETDST - 西欧光照利用时间（夏时制）</item>
+		<item>GMT - 格林威治标准时间</item>
+		<item>WET - 西欧</item>
+		<item>WAT - 西非时间</item>
+		<item>NDT - 纽芬兰（新大陆）白昼时间</item>
+		<item>ADT - 大西洋白昼时间</item>
+		<item>NFT - 纽芬兰（新大陆）标准时间</item>
+		<item>NST - 纽芬兰（新大陆）标准时间</item>
+		<item>AST - 大西洋标准时间（加拿大）</item>
+		<item>EDT - （美国)东部夏令时</item>
+		<item>CDT - （美国)中部夏令时</item>
+		<item>EST - （美国)东部标准时间</item>
+		<item>CST - （美国)中部标准时间</item>
+		<item>MDT - （美国)山地夏令时</item>
+		<item>MST - （美国)山地标准时间</item>
+		<item>PDT - （美国)太平洋夏令时</item>
+		<item>PST - （美国)太平洋标准时间</item>
+		<item>YDT - Yukon夏令时</item>
+		<item>HDT - 夏威夷/阿拉斯加白昼时间</item>
+		<item>YST - Yukon标准时</item>
+		<item>AHST - 夏威夷-阿拉斯加标准时间</item>
+		<item>CAT - 中阿拉斯加时间</item>
+		<item>NT - 州时间（Nome Time）</item>
+		<item>IDLW - 国际日期变更线，西边</item>
+	</string-array>
+	<string-array name="timezonevalue_list_preference">
+		<item>CCT</item>
+		<item>CCDT</item>
+		<item>NZDT</item>
+		<item>IDLE</item>
+		<item>NZST</item>
+		<item>NZT</item>
+		<item>AESST</item>
+		<item>CST(ACSST)</item>
+		<item>CADT</item>
+		<item>SADT</item>
+		<item>EST(EAST)</item>
+		<item>GST</item>
+		<item>LIGT</item>
+		<item>CAST</item>
+		<item>SAT(SAST)</item>
+		<item>WDT(AWSST)</item>
+		<item>JST</item>
+		<item>KST</item>
+		<item>MT</item>
+		<item>WST(AWST)</item>
+		<item>JT</item>
+		<item>IT</item>
+		<item>BT</item>
+		<item>EETDST</item>
+		<item>CETDST</item>
+		<item>EET</item>
+		<item>FWT</item>
+		<item>IST</item>
+		<item>MEST</item>
+		<item>METDST</item>
+		<item>SST</item>
+		<item>BST</item>
+		<item>CET</item>
+		<item>DNT</item>
+		<item>FST</item>
+		<item>MET</item>
+		<item>MEWT</item>
+		<item>MEZ</item>
+		<item>NOR</item>
+		<item>SET</item>
+		<item>SWT</item>
+		<item>WETDST</item>
+		<item>GMT</item>
+		<item>WET</item>
+		<item>WAT</item>
+		<item>NDT</item>
+		<item>ADT</item>
+		<item>NFT</item>
+		<item>NST</item>
+		<item>AST</item>
+		<item>EDT</item>
+		<item>CDT</item>
+		<item>EST</item>
+		<item>CST</item>
+		<item>MDT</item>
+		<item>MST</item>
+		<item>PDT</item>
+		<item>PST</item>
+		<item>YDT</item>
+		<item>HDT</item>
+		<item>YST</item>
+		<item>AHST</item>
+		<item>CAT</item>
+		<item>NT</item>
+		<item>IDLW</item>
+	</string-array>
+</resources>

@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="基本信息">
+
+		<com.infoecos.cn.destiny.app.utils.DateTimePickerPreference
+			android:key="time_preference_born" android:title="出生时间"
+			android:summary="年月日时: 月/日/年 时:分" />
+
+
+		<ListPreference android:key="list_preference_gender"
+			android:title="性别" android:summary="男/女" android:entries="@array/gender_list_preference"
+			android:entryValues="@array/gendervalue_list_preference"
+			android:dialogTitle="性别" />
+
+		<EditTextPreference android:key="edittext_preference_location"
+			android:title="出生地" android:summary="大约到省市：中国，上海"
+			android:dialogTitle="出生地" />
+
+		<ListPreference android:key="list_preference_timezone"
+			android:title="出生时基准" android:summary="北京时间"
+			android:entries="@array/timezone_list_preference"
+			android:entryValues="@array/timezonevalue_list_preference"
+			android:dialogTitle="出生时基准" />
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="其他信息">
+		<PreferenceScreen android:key="screen_preference_others"
+			android:title="个人信息" android:summary="个人资料：姓名，爱好">
+
+			<EditTextPreference android:key="edittext_preference_name"
+				android:title="姓名" android:summary="个人姓名" android:dialogTitle="姓名" />
+			<CheckBoxPreference android:key="checkbox_preference_fan"
+				android:title="信" android:summary="相信四柱预测？" />
+		</PreferenceScreen>
+	</PreferenceCategory>
+
+</PreferenceScreen>
