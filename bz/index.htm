@@ -1,0 +1,390 @@
+<html>
+<head>
+<title>八字专业测试--免费算命网</title>
+<META http-equiv=Content-Type content=text/html; charset=gb2312>
+<style type="text/css">
+  body,td,a{color: #000000; font-family 宋体; font-size: 9pt;}
+  A:hover {FONT-SIZE: 9pt; COLOR: #000000; TEXT-DECORATION: underline;LEFT: 1px; POSITION: relative; TEXT-DECORATION: none; TOP: 1px}
+</style>
+<script>if(frames){if(top.frames.length>0)top.location.href=self.location;}</script>
+<SCRIPT language=javascript>
+function checkForm(){
+var name=document.login.name.value;
+if(name == ""){ alert("没有填姓名吧！");document.login.name.focus();return false;}
+var y = document.login.y.value;
+var m = document.login.m.value;
+var d = document.login.d.value;
+var h = document.login.h.value;
+var i = document.login.i.value;
+m = m -1;
+d = d-1;
+var sTermInfo = new Array(0,21198,42461,63813,85308,106961,128806,150834,173055,195433,217965,240558,263215,285853,308440,330912,353245,375400,397371,419149,440750,462193,483513,504747);
+function wzc(year,num) {
+  var objD = new Date(( 31556956000*(year-1882) + sTermInfo[num]*60000  ) + Date.UTC(1882,0,5,18,0));
+  var hh = objD.getUTCHours();
+  var mm = objD.getUTCMinutes();
+  var ss = objD.getUTCSeconds();
+  var s = num +'/('+ (objD.getUTCMonth() + 1) + "月" + objD.getUTCDate() +"日" + hh + ":" + mm+')';
+  return(s);
+}
+function sTerm_d(y,n) {
+var offDate = new Date( ( 31556956000*(y-1882) + sTermInfo[n]*60000  ) + Date.UTC(1882,0,5,18,0) );
+return(offDate.getUTCDate());
+}
+function sTerm_hi(y,n) {
+var offDate = new Date( ( 31556956000*(y-1882) + sTermInfo[n]*60000  ) + Date.UTC(1882,0,5,18,0) );
+var hi=offDate.getUTCHours()*60+offDate.getUTCMinutes();
+return(hi);
+}
+function sTerm_s(y,n) {
+var offDate = new Date( ( 31556956000*(y-1882) + sTermInfo[n]*60000  ) + Date.UTC(1882,0,5,18,0) );
+return(offDate);
+}
+var cY,cM,cD,cH;
+if(m<2) cY=y-1900+36-1;
+else cY=y-1900+36;
+var term2=sTerm_d(y,2);
+if(m==1 && (d+1)>term2) cY=y-1900+36;
+if(m==1 && (d+1)==term2  && (h*60+i)>=sTerm_hi(y,2)) cY=y-1900+36;
+var firstNode = sTerm_d(y,m*2);
+cM = (y-1900)*12+m+12;     
+var start_term = (Date.UTC(y,m,d+1,h,i,0,0)- sTerm_s(y,m*2-2))/1000;     
+var start_term1 = wzc(y,m*2-2);
+if(m==0) {start_term = (Date.UTC(y,m,d+1,h,i,0,0)- sTerm_s(y-1,22))/1000;start_term1 = wzc(y-1,22);}
+var end_term = (sTerm_s(y,m*2) - Date.UTC(y,m,d+1,h,i,0))/1000;
+var end_term1 = wzc(y,m*2);
+
+if((d+1)>firstNode || ((d+1)==firstNode && (h*60+i*1)>=sTerm_hi(y,m*2))) {
+  cM = (y-1900)*12+m+13;
+  start_term = (Date.UTC(y,m,d+1,h,i,0,0)- sTerm_s(y,m*2))/1000;
+  start_term1 = wzc(y,m*2);
+  end_term = (sTerm_s(y,m*2+2) - Date.UTC(y,m,d+1,h,i,0))/1000;
+  end_term1 = wzc(y,m*2+2);
+  if(m==11) {end_term = (sTerm_s(y+1,0) - Date.UTC(y,m,d+1,h,i,0,0))/1000;end_term1 = wzc(y+1,0);}
+}
+
+if(start_term<0)start_term=0;
+if(end_term<0)end_term=0;
+var dayCyclical = Date.UTC(y,m,1,0,0,0,0)/86400000+25567+10;
+cD = dayCyclical+d;
+if(h>=23) cD = dayCyclical+d+1;
+var nh;
+if(h==23 || h==1 || h==3 || h==5 || h==7 || h==9 || h==11 || h==13 || h==15 || h==17 || h==19 || h==21) {nh = h - 1;nh=nh+2;}
+else {nh = h;}
+var houseCyclical = (Date.UTC(y,m,d+1,nh,0,0,0)/3600000+25567*24)/2;
+cH = houseCyclical;
+var lunarInfo=new Array(
+0x4bd8,0x4ae0,0xa570,0x54d5,0xd260,0xd950,0x5554,0x56af,0x9ad0,0x55d2,
+0x4ae0,0xa5b6,0xa4d0,0xd250,0xd295,0xb54f,0xd6a0,0xada2,0x95b0,0x4977,
+0x497f,0xa4b0,0xb4b5,0x6a50,0x6d40,0xab54,0x2b6f,0x9570,0x52f2,0x4970,
+0x6566,0xd4a0,0xea50,0x6a95,0x5adf,0x2b60,0x86e3,0x92ef,0xc8d7,0xc95f,
+0xd4a0,0xd8a6,0xb55f,0x56a0,0xa5b4,0x25df,0x92d0,0xd2b2,0xa950,0xb557,
+0x6ca0,0xb550,0x5355,0x4daf,0xa5b0,0x4573,0x52bf,0xa9a8,0xe950,0x6aa0,
+0xaea6,0xab50,0x4b60,0xaae4,0xa570,0x5260,0xf263,0xd950,0x5b57,0x56a0,
+0x96d0,0x4dd5,0x4ad0,0xa4d0,0xd4d4,0xd250,0xd558,0xb540,0xb6a0,0x95a6,
+0x95bf,0x49b0,0xa974,0xa4b0,0xb27a,0x6a50,0x6d40,0xaf46,0xab60,0x9570,
+0x4af5,0x4970,0x64b0,0x74a3,0xea50,0x6b58,0x5ac0,0xab60,0x96d5,0x92e0,
+0xc960,0xd954,0xd4a0,0xda50,0x7552,0x56a0,0xabb7,0x25d0,0x92d0,0xcab5,
+0xa950,0xb4a0,0xbaa4,0xad50,0x55d9,0x4ba0,0xa5b0,0x5176,0x52bf,0xa930,
+0x7954,0x6aa0,0xad50,0x5b52,0x4b60,0xa6e6,0xa4e0,0xd260,0xea65,0xd530,
+0x5aa0,0x76a3,0x96d0,0x4afb,0x4ad0,0xa4d0,0xd0b6,0xd25f,0xd520,0xdd45,
+0xb5a0,0x56d0,0x55b2,0x49b0,0xa577,0xa4b0,0xaa50,0xb255,0x6d2f,0xada0,
+0x4b63,0x937f,0x49f8,0x4970,0x64b0,0x68a6,0xea5f,0x6b20,0xa6c4,0xaaef,
+0x92e0,0xd2e3,0xc960,0xd557,0xd4a0,0xda50,0x5d55,0x56a0,0xa6d0,0x55d4,
+0x52d0,0xa9b8,0xa950,0xb4a0,0xb6a6,0xad50,0x55a0,0xaba4,0xa5b0,0x52b0,
+0xb273,0x6930,0x7337,0x6aa0,0xad50,0x4b55,0x4b6f,0xa570,0x54e4,0xd260,
+0xe968,0xd520,0xdaa0,0x6aa6,0x56df,0x4ae0,0xa9d4,0xa4d0,0xd150,0xf252,
+0xd520);
+var nStr1 = new Array('○','一','二','三','四','五','六','七','八','九','十');
+var nStr2 = new Array('初','十','廿','卅');
+var monthName = new Array("","正","二","三","四","五","六","七","八","九","十","十一","十二");
+function lYearDays(y) {
+var i, sum = 348;
+for(i=0x8000; i>0x8; i>>=1) sum += (lunarInfo[y-1900] & i)? 1: 0;
+return(sum+leapDays(y));
+}
+function leapDays(y) {
+if(leapMonth(y)) return( (lunarInfo[y-1899]&0xf)==0xf? 30: 29);
+else return(0);
+}
+function leapMonth(y) {
+var lm = lunarInfo[y-1900] & 0xf;
+return(lm==0xf?0:lm);
+}
+function monthDays(y,m) {
+return( (lunarInfo[y-1900] & (0x10000>>m))? 30: 29 );
+}
+
+
+
+function Lunar(objDate) {
+var i, leap=0, temp=0;
+var offset   = (Date.UTC(objDate.getFullYear(),objDate.getMonth(),objDate.getDate()) - Date.UTC(1900,0,31))/86400000;
+if(objDate.getHours()>=23){offset++;}
+for(i=1900; i<2100 && offset>0; i++) { temp=lYearDays(i); offset-=temp; }
+if(offset<0) { offset+=temp; i--; }
+this.year = i;
+leap = leapMonth(i);
+this.isLeap = false;
+for(i=1; i<13 && offset>0; i++) {
+if(leap>0 && i==(leap+1) && this.isLeap==false)
+{ --i; this.isLeap = true; temp = leapDays(this.year); }
+else
+{ temp = monthDays(this.year, i); }
+if(this.isLeap==true && i==(leap+1)) this.isLeap = false;
+offset -= temp;
+}
+if(offset==0 && leap>0 && i==leap+1)
+if(this.isLeap)
+{ this.isLeap = false; }
+else
+{ this.isLeap = true; --i; }
+if(offset<0){ offset += temp; --i; }
+this.month = i;
+this.day = offset + 1;
+}
+
+
+
+
+function cYear(y) {
+    var s;
+    s = nStr1[Math.floor(y/1000)];
+    s += nStr1[Math.floor((y%1000)/100)];
+    s += nStr1[Math.floor((y%100)/10)];
+    s += nStr1[y%10];
+	  return(s);
+}
+function cDay(d){
+var s;
+switch (d) {
+case 10:
+s = '初十'; break;
+case 20:
+s = '二十'; break;
+break;
+case 30:
+s = '三十'; break;
+break;
+default :
+s = nStr2[Math.floor(d/10)];
+s += nStr1[d%10];
+}
+return(s);
+}
+function lll(y,m,i,h){
+var sDObj = new Date(y,m,i+1,h);
+var lDObj = new Lunar(sDObj);
+var lY    = cYear(lDObj.year);
+var lM    = monthName[lDObj.month];
+var lD    = cDay(lDObj.day);
+var lL    = lDObj.isLeap? '闰':'';
+return (lY + '年' + lL + lM + '月' + lD + '日')
+}
+var lDate = lll(y,m,d,h);
+login.cY.value=cY;
+login.cM.value=cM;
+login.cD.value=cD;
+login.cH.value=cH;
+login.term1.value= wzc(y,m*2);
+login.term2.value=wzc(y,m*2+1);
+login.start_term.value=start_term;
+login.end_term.value=end_term;
+login.start_term1.value=start_term1;
+login.end_term1.value=end_term1;
+login.lDate.value=lDate;
+}
+</script>
+</head>
+
+
+<body bgcolor=#fdfee0  leftmargin=0 topmargin=0>
+<div align=center>
+<br><br>
+<br>
+<table cellPadding=5 cellSpacing=1 bgcolor=ff9900 border=0  width="500">
+    <tr bgColor=#ffffcc>
+        <td height=45  align=center>
+            <font color=#ff3333 style=font-size=13pt><b>八字专业测试</b></font>
+        </td>
+    </tr>
+    <tr bgcolor=fffff>
+        <td align=center>
+            <br>
+            <form action="bz.php"   method=post name='login' Onsubmit='return checkForm();'>
+                姓名：<input type="text" name="name" value="" size=15> 
+                性别：<input type="radio" name="sex" value="0"  checked>男 
+                <input type="radio" name="sex" value="1">女<br><br> 
+                出生:<SELECT name=y size=1>
+    			<OPTION selected value=1981>1981</OPTION> <OPTION value=1900>1900</OPTION> <OPTION value=1901>1901</OPTION> <OPTION value=1902>1902</OPTION> <OPTION value=1903>1903</OPTION> <OPTION value=1904>1904</OPTION> <OPTION value=1905>1905</OPTION> <OPTION value=1906>1906</OPTION> <OPTION value=1907>1907</OPTION> <OPTION value=1908>1908</OPTION> <OPTION value=1909>1909</OPTION> <OPTION value=1910>1910</OPTION> <OPTION value=1911>1911</OPTION> <OPTION value=1912>1912</OPTION> <OPTION value=1913>1913</OPTION> <OPTION value=1914>1914</OPTION> <OPTION value=1915>1915</OPTION> <OPTION value=1916>1916</OPTION> <OPTION value=1917>1917</OPTION> <OPTION value=1918>1918</OPTION> <OPTION value=1919>1919</OPTION> <OPTION value=1920>1920</OPTION> <OPTION value=1921>1921</OPTION> <OPTION value=1922>1922</OPTION> <OPTION value=1923>1923</OPTION> <OPTION value=1924>1924</OPTION> <OPTION value=1925>1925</OPTION> <OPTION value=1926>1926</OPTION> <OPTION value=1927>1927</OPTION> <OPTION value=1928>1928</OPTION> <OPTION value=1929>1929</OPTION> <OPTION value=1930>1930</OPTION> <OPTION value=1931>1931</OPTION> <OPTION value=1932>1932</OPTION> <OPTION value=1933>1933</OPTION> <OPTION value=1934>1934</OPTION> <OPTION value=1935>1935</OPTION> <OPTION value=1936>1936</OPTION> <OPTION value=1937>1937</OPTION> <OPTION value=1938>1938</OPTION> <OPTION value=1939>1939</OPTION> <OPTION value=1940>1940</OPTION> <OPTION value=1941>1941</OPTION> <OPTION value=1942>1942</OPTION> <OPTION value=1943>1943</OPTION> <OPTION value=1944>1944</OPTION> <OPTION value=1945>1945</OPTION> <OPTION value=1946>1946</OPTION> <OPTION value=1947>1947</OPTION> <OPTION value=1948>1948</OPTION> <OPTION value=1949>1949</OPTION> <OPTION value=1950>1950</OPTION> <OPTION value=1951>1951</OPTION> <OPTION value=1952>1952</OPTION> <OPTION value=1953>1953</OPTION> <OPTION value=1954>1954</OPTION> <OPTION value=1955>1955</OPTION> <OPTION value=1956>1956</OPTION> <OPTION value=1957>1957</OPTION> <OPTION value=1958>1958</OPTION> <OPTION value=1959>1959</OPTION> <OPTION value=1960>1960</OPTION> <OPTION value=1961>1961</OPTION> <OPTION value=1962>1962</OPTION> <OPTION value=1963>1963</OPTION> <OPTION value=1964>1964</OPTION> <OPTION value=1965>1965</OPTION> <OPTION value=1966>1966</OPTION> <OPTION value=1967>1967</OPTION> <OPTION value=1968>1968</OPTION> <OPTION value=1969>1969</OPTION> <OPTION value=1970>1970</OPTION> <OPTION value=1971>1971</OPTION> <OPTION value=1972>1972</OPTION> <OPTION value=1973>1973</OPTION> <OPTION value=1974>1974</OPTION> <OPTION value=1975>1975</OPTION> <OPTION value=1976>1976</OPTION> <OPTION value=1977>1977</OPTION> <OPTION value=1978>1978</OPTION> <OPTION value=1979>1979</OPTION> <OPTION value=1980>1980</OPTION> <OPTION value=1981>1981</OPTION> <OPTION value=1982>1982</OPTION> <OPTION value=1983>1983</OPTION> <OPTION value=1984>1984</OPTION> <OPTION value=1985>1985</OPTION> <OPTION value=1986>1986</OPTION> <OPTION value=1987>1987</OPTION> <OPTION value=1988>1988</OPTION> <OPTION value=1989>1989</OPTION> <OPTION value=1990>1990</OPTION> <OPTION value=1991>1991</OPTION> <OPTION value=1992>1992</OPTION> <OPTION value=1993>1993</OPTION> <OPTION value=1994>1994</OPTION> <OPTION value=1995>1995</OPTION> <OPTION value=1996>1996</OPTION> <OPTION value=1997>1997</OPTION> <OPTION value=1998>1998</OPTION> <OPTION value=1999>1999</OPTION> <OPTION value=2000>2000</OPTION> <OPTION value=2001>2001</OPTION> <OPTION value=2002>2002</OPTION> <OPTION value=2003>2003</OPTION> <OPTION value=2004>2004</OPTION> <OPTION value=2005>2005</OPTION> <OPTION value=2006>2006</OPTION> <OPTION value=2006>2006</OPTION> <OPTION value=2007>2007</OPTION> <OPTION value=2008>2008</OPTION> <OPTION value=2009>2009</OPTION> <OPTION value=2010>2010</OPTION></SELECT>年
+        	  <select name="m" size="1" >
+                <option value="3">3</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>月
+        	  <select name="d" size="1" >
+                <option value="18">18</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>日
+        	  <select name="h" size="1" >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>时
+        	  <select name="i" size="1" >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>分<br><br>
+            <input type="hidden" name=cY  value="">
+            <input type="hidden" name=cM  value="">
+            <input type="hidden" name=cD  value="">
+            <input type="hidden" name=cH  value="">
+            <input type="hidden" name=term1  value="">
+            <input type="hidden" name=term2  value="">
+            <input type="hidden" name=start_term  value="">
+            <input type="hidden" name=end_term  value="">
+            <input type="hidden" name=start_term1  value="">
+            <input type="hidden" name=end_term1  value="">
+            <input type="hidden" name=lDate  value="">
+            <input type="submit" name="" value="查看结果">&nbsp;&nbsp;<input type="reset" name="" value=" 重 写 ">
+            </form>
+
+            <a href=http://www.lcw360.com/free/sm/lhl/ target=_blank><font color=#660066>（注：出生日期为阳历，点击查看农历和阳历对照表）</font></a><br>
+            <br>
+            <font color=#006666>本程序根据《易经》整理编写，是国内公认的生辰八字算命标准，算法很准确！出生时间要以出生地所在时区的标准时间为准（阳历），程序会自动换算成四柱八字中的时间！</font><br><br>
+        </td></tr></table>
+<br><br>
+</div>
+<TABLE cellSpacing=0 cellPadding=0 width=765 align=center border=0>
+<table width="600" height="50" border="0" align="center">
+  <tr>
+    <td height="25"><div align="center">程序开发 联系方式：15578681659 QQ：810138068</div></td>
+  </tr>
+  <tr>
+    <td height="25"><div align="center">本测试是由程序得出，更详细请咨询QQ：810138068<a href="http://www.lcw360.com" target="_blank">地理风水网</a> www.lcw360.com </div></td>
+  </tr>
+</table>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+</body>
+</html>

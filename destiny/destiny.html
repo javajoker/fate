@@ -1,0 +1,340 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>
+	<head>
+		<title>八字评命</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=gb2312' />
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../scripts/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="../scripts/jquery.min.js"></script>
+
+<script type="text/javascript" src="../scripts/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="../scripts/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="../scripts/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../scripts/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../scripts/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="../scripts/plugins/jqplot.cursor.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../scripts/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../scripts/jquery-ui/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../scripts/jquery-ui/css/ui-lightness/jquery-ui.min.css" />
+
+    <script type="text/javascript" src="destiny.js"></script>
+    <script type="text/javascript" src="consts.js"></script>
+		<style type='text/css' media='screen'>
+			html, body {
+				color: #000;
+				background-color: #fff;
+				font-family: sans-serif;
+				text-align: center;
+			}
+
+			p {
+				text-align: left;
+				margin-left: 2em;
+				margin-right: 2em;
+			}
+
+			h1 {
+				font-size: 150%;
+			}
+			
+			.__chart {clear:both;width:700px;height:250px;}
+    .ui-accordion {
+      width: 800px;
+      margin: 0.5em auto;
+    }
+    .ui-tabs {
+      width: 720px;
+    }
+    .ui-tabs-nav, .ui-accordion-header {
+      font-size: 12px;
+    }
+    
+    .ui-tabs-panel, .ui-accordion-content {
+      font-size: 14px;
+    }
+    
+    .jqplot-target {
+      font-size: 18px;
+    }
+    
+    ol.description {
+      list-style-position: inside;
+      font-size:15px;
+      margin:1.5em auto;
+      padding:0 15px;
+      width:600px;
+    }
+		</style>
+	</head>
+	<body>
+
+
+<body bgcolor=#fdfee0  leftmargin=0 topmargin=0>
+
+<div align=center>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5375266894166525";
+/* 古术 */
+google_ad_slot = "5061134456";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+	<h2><a href="index.html">古术工具</a></h2>
+<hr width=80%>
+<br/>
+<table cellPadding=5 cellSpacing=1 bgcolor=ff9900 border=0  width="500">
+    <tr bgcolor=fffff>
+        <td align=center>
+<form>
+            <br>
+性别：<input type="radio" name="ie_gender" id="ie_gender" value="0"  checked>男 <input type="radio" name="ie_gender" id="ie_gender" value="1">女
+<br><br>
+出生：<input type="text" id="datepicker" value="2012-01-01"> - 
+<select id="ie_h" size="1" >
+<option selected value="0">0</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> 
+<option value="10">10</option> <option value="11">11</option> <option value="12">12</option> <option value="13">13</option> <option value="14">14</option> <option value="15">15</option> <option value="16">16</option> <option value="17">17</option> <option value="18">18</option> <option value="19">19</option>
+<option value="20">20</option> <option value="21">21</option> <option value="22">22</option> <option value="23">23</option>
+</select>时
+<select id="ie_i" size="1" >
+<option selected value="0">0</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> 
+<option value="10">10</option> <option value="11">11</option> <option value="12">12</option> <option value="13">13</option> <option value="14">14</option> <option value="15">15</option> <option value="16">16</option> <option value="17">17</option> <option value="18">18</option> <option value="19">19</option>
+<option value="20">20</option> <option value="21">21</option> <option value="22">22</option> <option value="23">23</option> <option value="24">24</option> <option value="25">25</option> <option value="26">26</option> <option value="27">27</option> <option value="28">28</option> <option value="29">29</option>
+<option value="30">30</option> <option value="31">31</option> <option value="32">32</option> <option value="33">33</option> <option value="34">34</option> <option value="35">35</option> <option value="36">36</option> <option value="37">37</option> <option value="38">38</option> <option value="39">39</option>
+<option value="40">40</option> <option value="41">41</option> <option value="42">42</option> <option value="43">43</option> <option value="44">44</option> <option value="45">45</option> <option value="46">46</option> <option value="47">47</option> <option value="48">48</option> <option value="49">49</option>
+<option value="50">50</option> <option value="51">51</option> <option value="52">52</option> <option value="53">53</option> <option value="54">54</option> <option value="55">55</option> <option value="56">56</option> <option value="57">57</option> <option value="58">58</option> <option value="59">59</option>
+</select>分
+<br><br>
+时区：<select id="ie_timezone" size="1" >
+	<option value="CCT">CCT - 中国沿海时间(北京时间)</option>
+	<option value="CCDT">CCDT - 北京夏令时</option>
+	<option value="NZDT">NZDT - 新西兰夏令时</option>
+	<option value="IDLE">IDLE - 国际日期变更线,东边</option>
+	<option value="NZST">NZST - 新西兰标准时间</option>
+	<option value="NZT">NZT - 新西兰时间</option>
+	<option value="AESST">AESST - 澳大利亚东部夏时制</option>
+	<option value="CST(ACSST)">CST(ACSST) - 中澳大利亚标准时间</option>
+	<option value="CADT">CADT - 中澳大利亚夏时制</option>
+	<option value="SADT">SADT - 南澳大利亚夏时制</option>
+	<option value="EST(EAST)">EST(EAST) - 东澳大利亚标准时间</option>
+	<option value="GST">GST - 关岛标准时间</option>
+	<option value="LIGT">LIGT - 澳大利亚墨尔本时间</option>
+	<option value="CAST">CAST - 中澳大利亚标准时间</option>
+	<option value="SAT(SAST)">SAT(SAST) - 南澳大利亚标准时间</option>
+	<option value="WDT(AWSST)">WDT(AWSST) - 澳大利亚西部标准夏令时</option>
+	<option value="JST">JST - 日本标准时间，(USSR Zone 8）</option>
+	<option value="KST">KST - 韩国标准时间</option>
+	<option value="MT">MT - 毛里求斯时间</option>
+	<option value="WST(AWST)">WST(AWST) - 澳大利亚西部标准时间</option>
+	<option value="JT">JT - 爪哇时间</option>
+	<option value="IT">IT - 伊朗时间</option>
+	<option value="BT">BT - 巴格达时间</option>
+	<option value="EETDST">EETDST - 东欧夏时制</option>
+	<option value="CETDST">CETDST - 中欧夏时制</option>
+	<option value="EET">EET - 东欧，(USSR Zone 1）</option>
+	<option value="FWT">FWT - 法国夏时制</option>
+	<option value="IST">IST - 以色列标准时间</option>
+	<option value="MEST">MEST - 中欧夏时制</option>
+	<option value="METDST">METDST - 中欧白昼时间</option>
+	<option value="SST">SST - 瑞典夏时制</option>
+	<option value="BST">BST - 英国夏时制</option>
+	<option value="CET">CET - 中欧时间</option>
+	<option value="DNT">DNT - 丹麦标准时间Dansk Normal Tid</option>
+	<option value="FST">FST - 法国冬时制</option>
+	<option value="MET">MET - 中欧时间</option>
+	<option value="MEWT">MEWT - 中欧冬时制</option>
+	<option value="MEZ">MEZ - 中欧时区</option>
+	<option value="NOR">NOR - 挪威标准时间</option>
+	<option value="SET">SET - 塞舌尔时间Seychelles Time</option>
+	<option value="SWT">SWT - 瑞典冬时制</option>
+	<option value="WETDST">WETDST - 西欧光照利用时间（夏时制）</option>
+	<option value="GMT">GMT - 格林威治标准时间</option>
+	<option value="WET">WET - 西欧</option>
+	<option value="WAT">WAT - 西非时间</option>
+	<option value="NDT">NDT - 纽芬兰（新大陆）白昼时间</option>
+	<option value="ADT">ADT - 大西洋白昼时间</option>
+	<option value="NFT">NFT - 纽芬兰（新大陆）标准时间</option>
+	<option value="NST">NST - 纽芬兰（新大陆）标准时间</option>
+	<option value="AST">AST - 大西洋标准时间（加拿大）</option>
+	<option value="EDT">EDT - （美国)东部夏令时</option>
+	<option value="CDT">CDT - （美国)中部夏令时</option>
+	<option value="EST">EST - （美国)东部标准时间</option>
+	<option value="CST">CST - （美国)中部标准时间</option>
+	<option value="MDT">MDT - （美国)山地夏令时</option>
+	<option value="MST">MST - （美国)山地标准时间</option>
+	<option value="PDT">PDT - （美国)太平洋夏令时</option>
+	<option value="PST">PST - （美国)太平洋标准时间</option>
+	<option value="YDT">YDT - Yukon夏令时</option>
+	<option value="HDT">HDT - 夏威夷/阿拉斯加白昼时间</option>
+	<option value="YST">YST - Yukon标准时</option>
+	<option value="AHST">AHST - 夏威夷-阿拉斯加标准时间</option>
+	<option value="CAT">CAT - 中阿拉斯加时间</option>
+	<option value="NT">NT - 州时间（Nome Time）</option>
+	<option value="IDLW">IDLW - 国际日期变更线，西边</option>
+</select>
+<br><br>
+<input type="radio" name="ie_where" id="ie_where" value="0"  checked>南半球 <input type="radio" name="ie_where" id="ie_where" value="1">北半球
+<br><br>
+<input type="button" id="ie_go" value="查看结果">&nbsp;&nbsp;<input id="ie_reset" type="reset" value="重写">
+</form>
+        </td></tr></table>
+
+<div id="accordion" style="margin-top:50px">
+<h2><a href="#">五行分布</a></h2>
+<div>
+<div id="ie_chart_5e" class="__chart"></div>
+<div id="ie_result" style="clear:both;"></div>
+</div>
+
+<h2><a href="#">人身起伏</a></h2>
+<div>
+	<div id="ppl2" class="__chart"></div>
+</div>
+
+<h2><a href="#">外物运程</a></h2>
+<div>
+	<div id="ie_chart_fate">
+		<ul>
+			<li><a href="#tabs_fate-0">正官</a></li>
+			<li><a href="#tabs_fate-1">七杀</a></li>
+			<li><a href="#tabs_fate-2">正印</a></li>
+			<li><a href="#tabs_fate-3">偏印</a></li>
+			<li><a href="#tabs_fate-4">正财</a></li>
+			<li><a href="#tabs_fate-5">偏财</a></li>
+			<li><a href="#tabs_fate-6">食神</a></li>
+			<li><a href="#tabs_fate-7">伤官</a></li>
+			<li><a href="#tabs_fate-8">比肩</a></li>
+			<li><a href="#tabs_fate-9">劫财</a></li>
+		</ul>
+		<div id="tabs_fate-0">
+<p>
+其表象范围大多与职位、名誉、权力、事业竞争、上司，以及子女、女性的丈夫或男友等有关。<br/>
+吉象：职位权力易稳固或上升，官司易获胜诉或平反，学业或事业较顺利。男性较易获得子女尊重。女性的丈夫较有地位或权威。<br/>
+凶象：易遭诽谤财受损，易发生是非争执，影响职位、名誉，兄弟姐妹易发生刑伤。女性之丈夫或男友易有不利事。,
+</p>
+			<div id="fate0" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-1">
+<p>
+其表象范围大多与武职、军衔、诉讼、外敌、建筑，以及儿女、女性的情人等有关。<br/>
+吉象：做事干脆利落，工作效率高，较易文成武就。侠义助人受人感激，名声显赫，有地位或有权威。<br/>
+凶象：个性太张扬，聪明反被聪明误，自己容易受损失。生活起伏较大，身体易受伤残。女性早婚不利。,
+</p>
+			<div id="fate1" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-2">
+<p>
+其表象范围大多与学业、艺术，以及长辈、师长、母亲、女婿等有关。<br/>
+吉象：自己的天赋较易发挥，学业艺术方面有发展。<br/>
+凶象：劳神费心，工作受自己的情绪影响较大，女性不利子女。,
+</p>
+			<div id="fate2" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-3">
+<p>
+其表象范围大多与学术研究、爱好特长，以及长辈、 贵人、母亲等有关。<br/>
+吉象：较易得贵人帮助，爱好特长易发挥，学术研究较易有成就。<br/>
+凶象：学业或事业有波折，生活不安定，名誉有损，或母亲有事。不利子女，易发生交通事故。,
+</p>
+			<div id="fate3" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-4">
+<p>
+其表象范围大都与财产、金钱，以及父亲、男性的妻子或女友等有关。<br/>
+吉象：财运亨通，有比平时较多求财的机遇。父亲较有利，或容易交上女友，姻缘不错。<br/>
+凶象：易引起财产或金钱纠纷，意外破耗。财多伤母克妻，易发生感情破裂。,
+</p>
+			<div id="fate4" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-5">
+<p>
+其表象范围大都与商业、财产、金钱，以及父亲、男性的情人、女性的婆婆等有关。<br/>
+吉象：人缘好口碑佳，生意买卖比较顺利，富裕发达。男性风流豪爽，易得女人喜欢。<br/>
+凶象：本地求财不易得，财虽多但不易存下，婚姻感情易变。,
+</p>
+			<div id="fate5" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-6">
+<p>
+其表象范围大多与开业迁居、文学写作、自由职业、专业技术，以及子女、学生、下属、性欲等有关。<br/>
+吉象：学业事业较易进步和成功，天赋较易发挥。爱情也较易产生和进展，易交桃花运。女性较易怀胎生育。<br/>
+凶象：聪明易被聪明误，产生矛盾，引起官司诉讼。外表光华内里平淡，防过度劳神而损身心；盲目追求爱情而有损名誉及事业。男女要防矛盾和婚变。,
+</p>
+			<div id="fate6" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-7">
+<p>
+其表象范围大多与理想追求、爱好特长、文学技术、公共关系、迁移调动，以及儿女、学生、晚辈、部属、性欲等有关。<br/>
+吉象：比平时有较高的智慧和才能，聪明智谋多，在音乐艺术、爱好特长方面较易成功。<br/>
+凶象：本性过度暴露，惹事生非好管事，易与人产生过节，孤独寂寞。男性易盲目追求爱情而有损名誉及事业。女性防婚姻不顺利。,
+</p>
+			<div id="fate7" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-8">
+<p>
+其表象范围大多与本身的事业、思想言行、决策、健康安全，以及兄弟姐妹、同学、同事、朋友、近邻等有关。<br/>
+吉象：个性张扬，事业心较强，勇于向不利环境挑战，在异乡较顺利，较得朋友之助力。<br/>
+凶象：易争强斗胜、独断专行，常遭小人陷害，或受兄弟姐妹、同事或朋友拖累而破财，合作事业易散伙，父亲受牵累。夫妻易生是非。,
+</p>
+			<div id="fate8" class="__chart"></div>
+		</div>
+		<div id="tabs_fate-9">
+<p>
+其表象范围大多与本身的思想言行、陈规陋习、决策计划，以及朋友、同辈、兄弟姐妹等有关。<br/>
+吉象：理想远大，进取心强，有主见，敢于与不良现象作斗争。<br/>
+凶象：不容易听取别人的意见，固执已见、独断专行，多招惹诽谤有伤名誉。做事没有恒心，说的多做的少。易染上酗酒赌博等恶习。男性要防婚变，女性婚期早不利。
+</p>
+			<div id="fate9" class="__chart"></div>
+		</div>
+  </div> 
+</div>
+<h2><a href="#">家人吉凶</a></h2>
+<div>
+	<div id="ie_chart_ppl">
+		<ul>
+			<li><a href="#tabs_ppl-0">父亲</a></li>
+			<li><a href="#tabs_ppl-1">母亲</a></li>
+			<li><a href="#tabs_ppl-3">对象</a></li>
+			<li><a href="#tabs_ppl-4">女</a></li>
+			<li><a href="#tabs_ppl-5">子</a></li>
+		</ul>
+		<div id="tabs_ppl-0">
+			<div id="ppl0" class="__chart"></div>
+		</div>
+		<div id="tabs_ppl-1">
+			<div id="ppl1" class="__chart"></div>
+		</div>
+		<div id="tabs_ppl-3">
+			<div id="ppl3" class="__chart"></div>
+		</div>
+		<div id="tabs_ppl-4">
+			<div id="ppl4" class="__chart"></div>
+		</div>
+		<div id="tabs_ppl-5">
+			<div id="ppl5" class="__chart"></div>
+		</div>
+  </div> 
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-400749-3']);
+  _gaq.push(['_setDomainName', 'infoecos.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>
