@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 地支 {
 	public static $子, $丑, $寅, $卯, $辰, $巳, $午, $未, $申, $酉, $戌, $亥;

@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class Date {
 	public static function get($year, $month, $day, $hours = 0, $minutes = 0, $seconds = 0) {
@@ -8,7 +9,7 @@ class Date {
 	protected $m_time;
 
 	function __construct($time = null) {
-		if($time === null) $time = mktime();
+		if($time === null) $time = time();
 		$this->m_time = $time;
 	}
 	

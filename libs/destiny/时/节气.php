@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 节气 {
 	// 节气的时间。

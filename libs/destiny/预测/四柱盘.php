@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 define('月提权重', 基础权重 * 3); // 得令故
 

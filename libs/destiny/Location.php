@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class Location {
 	protected $m_latitude = 0;

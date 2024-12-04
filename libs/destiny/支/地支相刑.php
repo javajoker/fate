@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 地支相刑 {
 	public static $无礼刑, $恃势刑, $无恩刑, $自刑;

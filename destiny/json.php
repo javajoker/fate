@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 # Initialise common code
 $preIP = dirname( __FILE__ );

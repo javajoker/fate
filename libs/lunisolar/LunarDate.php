@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class LunarDate {
 	private $m_year;

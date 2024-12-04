@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 地支相害 {
 	public static $子未害, $丑午害, $寅巳害, $卯辰害, $申亥害, $酉戌害;

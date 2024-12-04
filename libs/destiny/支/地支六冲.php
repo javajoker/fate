@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 地支六冲 {
 	public static $子午冲, $丑未冲, $寅申冲, $卯酉冲, $辰戌冲, $巳亥冲;

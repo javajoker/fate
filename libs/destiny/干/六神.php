@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 六神 {
 	public static $青龙, $朱雀, $勾陈, $螣蛇, $白虎, $玄武;

@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 class 农历 {
 	private static $LeapMonth = 0;
 	private static $Jan1Month = 1;
@@ -71,11 +72,11 @@ class 农历 {
 	}
 
 	private static function gergIsleap($y) {
-		if ((y % 4) == 0) {
-			if ((y % 100) != 0) {
+		if (($y % 4) == 0) {
+			if (($y % 100) != 0) {
 				return 1;
 			}
-			if ((y % 400) == 0) {
+			if (($y % 400) == 0) {
 				return 1;
 			}
 		}
@@ -107,13 +108,13 @@ class 农历 {
 		$num2 -= $num8 - 1;
 		$num5 = 0x8000;
 		$yearInfo = self::getYearInfo($nLYear, self::$nDaysPerMonth);
-		$num6 = ((yearInfo & $num5) != 0) ? 30 : 0x1d;
+		$num6 = (($yearInfo & $num5) != 0) ? 30 : 0x1d;
 		$nLMonth = 1;
 		while ($num2 > $num6) {
 			$num2 -= $num6;
 			$nLMonth++;
 			$num5 = $num5 >> 1;
-			$num6 = ((yearInfo & $num5) != 0) ? 30 : 0x1d;
+			$num6 = (($yearInfo & $num5) != 0) ? 30 : 0x1d;
 		}
 		$nLDate = $num2;
 

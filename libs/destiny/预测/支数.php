@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 支数 extends 数 {
 	public static $藏干权重 = array();

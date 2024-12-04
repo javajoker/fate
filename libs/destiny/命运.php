@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 命运 {
 	public static function 顺行($birthday, $genderIsMan, $location = null) {

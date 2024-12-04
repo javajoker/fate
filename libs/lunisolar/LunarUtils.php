@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class LunarUtils {
 

@@ -1,5 +1,9 @@
 <?php
 
+function implode2($pieces, $glue) {
+	return implode($glue, $pieces);
+}
+
 function cutStr($sourcestr, $cutstart = 0, $cutlength = 0) {
 	$returnstr = '';
 	$i = 0;

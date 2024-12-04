@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class TimezoneLocation extends Location {
 	private $m_hoursOffset = 0;

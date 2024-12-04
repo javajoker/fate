@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 起宫 {
 	public static function 胎元($月柱) {

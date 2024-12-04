@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 喜用神 {
 	private $用神 = array();

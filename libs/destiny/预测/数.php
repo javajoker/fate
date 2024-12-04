@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 abstract class 数 {
 	protected $术数;

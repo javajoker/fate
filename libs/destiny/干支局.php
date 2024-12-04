@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 干支局 {
 	public static $天干五合;

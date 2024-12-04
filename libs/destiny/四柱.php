@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 /**
  * 年柱—是八字之根，代表家族祖先的根基。

@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 方位 {
 	public static $东, $南, $西, $北, $中;

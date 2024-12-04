@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 define('大运序', 时序 + 1);
 define('流年序', 大运序 + 1);

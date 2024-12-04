@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 /**
  * 获取指定数的纳音五行。

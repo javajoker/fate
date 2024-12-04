@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 八字命评 {
 	private $m_pan;
@@ -31,40 +32,34 @@ class 八字命评 {
 		if ($this->用神 == null) {
 			$eleWeights = $this->盘五行();
 			$deviations = array();
-			$zs = $this->m_pan->柱数();
-			$host = $zs[日序]->干数()->术数()->五行();
 
 			$evs = 五行::values();
 			foreach ($evs as $ele) {
 				$newEleWeights = $eleWeights; // copy array
-				$ws = array( 基础权重, 0 );
-				$e = null;
+				$offWeight = 基础权重;
 
-				$e = $host->官();
-				$ws[1] = $newEleWeights[$e->ordinal()];
-				$ws = 干数::生克2($ws, array( new 术数($ele, 阴阳::$阳), new 术数($e, 阴阳::$阳) ));
-				$newEleWeights[$e->ordinal()] = $ws[1];
+				$e = $ele->生()->ordinal();
+				$a = ($newEleWeights[$e] < $offWeight) ? $newEleWeights[$e] : $offWeight;
+				$newEleWeights[$e] += $a * 生客得气;
+				$offWeight -= $a * 生主泄气;
 
-				$e = $host->克();
-				$ws[1] = $newEleWeights[$e->ordinal()];
-				$ws = 干数::生克2($ws, array( new 术数($ele, 阴阳::$阳), new 术数($e, 阴阳::$阳) ));
-				$newEleWeights[$e->ordinal()] = $ws[1];
-
-				$e = $host->生();
-				$ws[1] = $newEleWeights[$e->ordinal()];
-				$ws = 干数::生克2($ws, array( new 术数($ele, 阴阳::$阳), new 术数($e, 阴阳::$阳) ));
-				$newEleWeights[$e->ordinal()] = $ws[1];
-
-				$e = $host;
-				$ws[1] = $newEleWeights[$e->ordinal()];
-				$ws = 干数::生克2($ws, array( new 术数($ele, 阴阳::$阳), new 术数($e, 阴阳::$阳) ));
-				$newEleWeights[$e->ordinal()] = $ws[1];
-
-				$e = $host->印();
-				$ws[1] = $newEleWeights[$e->ordinal()];
-				$ws = 干数::生克2($ws, array( new 术数($ele, 阴阳::$阳), new 术数($e, 阴阳::$阳) ));
-				$newEleWeights[$e->ordinal()] = $ws[1];
-
+				$e = $ele->克()->ordinal();
+				$a = ($newEleWeights[$e] < $offWeight) ? $newEleWeights[$e] : $offWeight;
+				$newEleWeights[$e] -= $a * 克客失气;
+				$offWeight -= $a * 克主耗气;
+				
+				$e = $ele->官()->ordinal();
+				$a = ($newEleWeights[$e] < $offWeight) ? $newEleWeights[$e] : $offWeight;
+				$newEleWeights[$e] -= $a * 克主耗气;
+				$offWeight -= $a * 克客失气;
+				
+				$e = $ele->印()->ordinal();
+				$a = ($newEleWeights[$e] < $offWeight) ? $newEleWeights[$e] : $offWeight;
+				$newEleWeights[$e] -= $a * 生主泄气;
+				$offWeight += $a * 生客得气;
+				
+//				$newEleWeights[$ele->ordinal()] += $offWeight;
+				
 				$deviations[$ele->ordinal()] = $this->getStandardDeviation($newEleWeights);
 			}
 			$deviation = $this->getStandardDeviation($eleWeights);
@@ -162,9 +157,9 @@ class 八字命评 {
 
 	private function 喜用神(干数 $x) {
 		return ($x->术数()->五行() === $this->用神()->用神() ? '(用)' : 
-				$x->术数()->五行() === $this->用神()->喜神() ? '(喜)' : 
-				$x->术数()->五行() === $this->用神()->忌神() ? '(忌)' : 
-				'　　');
+				($x->术数()->五行() === $this->用神()->喜神() ? '(喜)' : 
+				($x->术数()->五行() === $this->用神()->忌神() ? '(忌)' : 
+				'　　')));
 	}
 
 	public function 八字() {
@@ -212,28 +207,51 @@ class 八字命评 {
 		$eleWeights = $this->m_pan->五行局面();
 		$e = array();
 		for($i = 0;$i<5;++$i) {
-			$e[] = (isset($eleWeights[$i]) ? $eleWeights[$i] : 0);
+			$e[] = sprintf('%.2f', (isset($eleWeights[$i]) ? $eleWeights[$i] : 0));
 		}
 
 		// 阴阳互通而五行易失和
 		// 五行最强显于外，日主强弱为内，五行不平衡影响即为健康隐患
 		$zs = $this->m_pan->柱数();
 		printf('"host" : %s,' . "\n", $zs[日序]->干数()->术数()->五行()->ordinal());
-		printf('"ele" : [%s],' . "\n", implode($e, ','));
+		printf('"hostYinYang" : %s,' . "\n", $zs[日序]->干数()->术数()->阴阳()->ordinal());
+//		printf('"hostVal" : %.2f,' . "\n", $zs[日序]->干数()->getWeight());
+		printf('"hostAnimal" : "%s",' . "\n", $zs[年序]->支数()->地支()->术数()->getIndex());
+		printf('"ele" : [%s],' . "\n", implode2($e, ','));
 		$ele1 = $this->用神()->用神();
 		$ele2 = $this->用神()->喜神();
 		$ele3 = $this->用神()->忌神();
 		printf('"god" : [%s, %s, %s],' . "\n", $ele1->ordinal(), $ele2->ordinal(), $ele3->ordinal());
 		printf('"pattern" : %s,' . "\n", $this->m_pan->心性()->ordinal());
+
+		$ozs = $this->m_pan->柱数();
+		$_神 = array();
+		for ($i = 0; $i < count($ozs); ++$i) {
+			$gan = $ozs[$i]->干数();
+			$zhi = $ozs[$i]->支数();
+
+			$_神[$gan->神()->ordinal()] += $gan->getWeight();
+
+			foreach ($zhi->藏干数() as $g) {
+				$_神[$g->神()->ordinal()] += $g->getWeight();
+			}
+		}
+
+		$s = array();
+		foreach(十神::values() as $key) {
+			$shu = 十神::术数($zs[日序]->干数()->术数(), $key);
+			if($shu != null) $s[] = sprintf('[%d,%d,%.2f]', $shu->五行()->ordinal(), $shu->阴阳()->ordinal(), $_神[$key->ordinal()] ? $_神[$key->ordinal()] : 0);
+		}
+		printf('"eleyinyang":[%s],' . "\n", implode2($s, ','));
 	}
 
 	public function 综合命评2() {
 		$result = $this->八字();
 
-		printf('"心性" : ["%s"],' . "\n", implode( $result['inside'], '","' ));
-		printf('"外貌" : ["%s"],' . "\n", implode( $result['outside'], '","' ));
-		printf('"健康" : ["%s"],' . "\n", implode( $result['sickness'], '","' ));
-		printf('"家宅工作" : ["%s"],' . "\n", implode( $result['work'], '","' ));
+		printf('"心性" : ["%s"],' . "\n", implode2( $result['inside'], '","' ));
+		printf('"外貌" : ["%s"],' . "\n", implode2( $result['outside'], '","' ));
+		printf('"健康" : ["%s"],' . "\n", implode2( $result['sickness'], '","' ));
+		printf('"家宅工作" : ["%s"],' . "\n", implode2( $result['work'], '","' ));
 	}
 
 	public function 流年行运() {
@@ -248,24 +266,42 @@ class 八字命评 {
 			//$s[] = sprintf('["%s", "%s"]' . "\n", date('Y/n/j', $t[0]->getTime()), date('Y/n/j', $t[1]->getTime()));
 			$s[] = sprintf('"%s"', date('Y/n/j', ($t[0]->getTime() + $t[1]->getTime()) / 2));
 		}
-		printf('%s],' . "\n", implode($s, ','));
+		printf('%s],' . "\n", implode2($s, ','));
 		
+		$ozs = $this->m_pan->柱数();
 		printf('"ppl":{' . "\n");
-		$s = array();
+		$s = $os = array();
 		$顺 = $this->m_pan->顺();
 		for ($i = 月序; $i <= 时序; ++$i) {
-			$s[] = sprintf('"%s":[%s]' . "\n", ((($i - 1) * 2) + ($顺 ^ true ? 0 : 1)), implode($宫[$i][0], ','));
-			$s[] = sprintf('"%s":[%s]' . "\n", ((($i - 1) * 2) + ($顺 ^ false ? 0 : 1)), implode($宫[$i][1], ','));
+			$vs = array();
+			foreach ($宫[$i][0] as $v) {
+				$vs[] = sprintf('%.2f', $v);
+			}
+			$id = (($i - 1) * 2) + ($顺 ^ true ? 0 : 1);
+			$s[] = sprintf('"%s":[%s]' . "\n", $id, implode2($vs, ','));
+			$os[] = sprintf('"%s":%.2f', $id, $ozs[$i]->干数()->getWeight());
+			
+			$vs = array();
+			foreach ($宫[$i][1] as $v) {
+				$vs[] = sprintf('%.2f', $v);
+			}
+			$id = (($i - 1) * 2) + ($顺 ^ false ? 0 : 1);
+			$s[] = sprintf('"%s":[%s]' . "\n", $id, implode2($vs, ','));
+			$os[] = sprintf('"%s":%.2f', $id, $ozs[$i]->支数()->getWeight());
 		}
-		printf('%s},' . "\n", implode($s, ','));
+		printf('%s},' . "\n", implode2($s, ','));
+		printf('"ppl_val":{%s},' . "\n", implode2($os, ','));
 		
 		printf('"fate":[' . "\n");
 		$s = array();
-		$sv = 十神::values();
 		foreach ($神 as $key => $vals) {
-			$s[] = sprintf('[%s]' . "\n", implode($vals, ','));;
+			$vs = array();
+			foreach ($vals as $v) {
+				$vs[] = sprintf('%.2f', $v);
+			}
+			$s[] = sprintf('[%s]' . "\n", implode2($vs, ','));;
 		}
-		printf('%s]' . "\n", implode($s, ','));
+		printf('%s]' . "\n", implode2($s, ','));
 	}
 
 	private function _流年行运($运, $大运) {
@@ -291,7 +327,7 @@ class 八字命评 {
 			}
 			$ld->setYear($ld->getYear() + 1);
 			for ($j = 0; $j < 9; ++$j) {
-				if ($d1->getYear() > $now->getYear() + 3)
+				if ($d1->getYear() >= 2100-1)//$now->getYear() + 3)
 					return array( $timespan, $宫, $神 );
 				$d2 = Date::get($d2->getYear() + 1, 1, 节令::term($d2->getYear() + 1, 3, true));
 				$this->流年行运命评($大运[$i], $d1, $d2, $jn, $timespan, $宫, $神);

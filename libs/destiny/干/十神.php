@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 十神 {
 	/**
@@ -191,6 +192,31 @@ class 十神 {
 			}
 		}
 
+		return null;
+	}
+
+	public static function 术数($host, $_神) {
+		if (self::$正官 == $_神) {
+			return new 术数($host->五行()->官(), $host->阴阳()->opposite());
+		} else if (self::$七杀 == $_神) {
+			return new 术数($host->五行()->官(), $host->阴阳());
+		} else if (self::$正印 == $_神) {
+			return new 术数($host->五行()->印(), $host->阴阳()->opposite());
+		} else if (self::$偏印 == $_神) {
+			return new 术数($host->五行()->印(), $host->阴阳());
+		} else if (self::$正财 == $_神) {
+			return new 术数($host->五行()->克(), $host->阴阳()->opposite());
+		} else if (self::$偏财 == $_神) {
+			return new 术数($host->五行()->克(), $host->阴阳());
+		} else if (self::$伤官 == $_神) {
+			return new 术数($host->五行()->生(), $host->阴阳()->opposite());
+		} else if (self::$食神 == $_神) {
+			return new 术数($host->五行()->生(), $host->阴阳());
+		} else if (self::$劫财 == $_神) {
+			return new 术数($host->五行(), $host->阴阳()->opposite());
+		} else if (self::$比肩 == $_神) {
+			return new 术数($host->五行(), $host->阴阳());
+		}
 		return null;
 	}
 }

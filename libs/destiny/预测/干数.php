@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 define('生主泄气', 1.0 / 4);
 define('生客得气', 2.0 / 4);

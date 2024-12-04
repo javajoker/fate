@@ -1,4 +1,5 @@
 <?php
+namespace DchLib;
 
 class 人体 {
 	/**
