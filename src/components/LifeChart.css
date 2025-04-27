@@ -1,7 +1,7 @@
 .life-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .life-header {
@@ -10,17 +10,17 @@
 }
 
 .life-header h2 {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-bottom: 0.25rem;
 }
 
 .life-header p {
-  color: #666;
+  color: #aaa;
   font-size: 1rem;
 }
 
 .life-chart {
-  background-color: white;
+  background-color: #3f0f78;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -29,7 +29,7 @@
 .life-chart h3, 
 .phase-details h3,
 .elements-chart h3 {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
@@ -84,7 +84,7 @@
 .phase-label {
   margin-top: 0.5rem;
   font-size: 0.8rem;
-  color: #666;
+  color: #aaa;
   text-align: center;
 }
 
@@ -94,13 +94,13 @@
   justify-content: space-between;
   height: 160px;
   font-size: 0.8rem;
-  color: #666;
+  color: #aaa;
   position: relative;
   left: -10px;
 }
 
 .phase-details {
-  background-color: white;
+  background-color: #351576;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -115,7 +115,7 @@
 .phase-card {
   flex: 1;
   min-width: 250px;
-  background-color: #f8f9fa;
+  background-color: #3f0f78;
   border-radius: 8px;
   padding: 1.25rem;
   border-left: 4px solid var(--primary-color);
@@ -145,7 +145,7 @@
 }
 
 .elements-chart {
-  background-color: white;
+  background-color: #2a1b74;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -163,13 +163,13 @@
 }
 
 .elements-interpretation {
-  background-color: #f8f9fa;
+  background-color: #3f0f78;
   border-radius: 8px;
   padding: 1.25rem;
 }
 
 .elements-interpretation h4 {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-bottom: 0.75rem;
 }
 

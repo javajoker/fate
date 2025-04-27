@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import './UserForm.css';
+import React, { useState } from "react";
+import "./UserForm.css";
+import { useTranslation } from "react-i18next";
 
 const UserForm = ({ onSubmit, profiles, switchProfile }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    birthDate: '',
-    birthTime: '',
-    birthPlace: '',
-    relationship: 'self'
+    name: "",
+    birthDate: "",
+    birthTime: "",
+    birthPlace: "",
+    relationship: "self",
   });
+
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.birthDate || !formData.birthPlace) {
-      alert('Please fill in at least name, birth date and birth place!');
+      alert(t("form-hint"));
       return;
     }
     onSubmit(formData);
@@ -31,13 +34,13 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
     <div className="user-form-container fade-in">
       <div className="user-form-card">
         <div className="form-header">
-          <h1>Your Cosmic Journey</h1>
-          <p>Enter your birth details to discover your fortune</p>
+          <h1>{t("form-header")}</h1>
+          <p>{t("form-desc")}</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">{t("info-name")}</label>
             <input
               type="text"
               id="name"
@@ -51,7 +54,7 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="birthDate">Birth Date</label>
+              <label htmlFor="birthDate">{t("info-date")}</label>
               <input
                 type="date"
                 id="birthDate"
@@ -63,7 +66,7 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="birthTime">Birth Time (optional)</label>
+              <label htmlFor="birthTime">{t("info-time")}</label>
               <input
                 type="time"
                 id="birthTime"
@@ -76,20 +79,20 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">{t("info-gender")}</label>
               <select
                 id="gender"
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
               >
-                <option value="0">Male</option>
-                <option value="1">Female</option>
+                <option value="0">{t("info-m")}</option>
+                <option value="1">{t("info-f")}</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="birthPlace">Birth Place</label>
+              <label htmlFor="birthPlace">{t("info-place")}</label>
               <input
                 type="text"
                 id="birthPlace"
@@ -103,30 +106,30 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="relationship">Relationship</label>
+            <label htmlFor="relationship">{t("info-relationship")}</label>
             <select
               id="relationship"
               name="relationship"
               value={formData.relationship}
               onChange={handleChange}
             >
-              <option value="self">Self</option>
-              <option value="partner">Partner</option>
-              <option value="child">Child</option>
-              <option value="parent">Parent</option>
-              <option value="friend">Friend</option>
-              <option value="other">Other</option>
+              <option value="self">{t("info-rself")}</option>
+              <option value="partner">{t("info-rpartner")}</option>
+              <option value="child">{t("info-rchild")}</option>
+              <option value="parent">{t("info-rparent")}</option>
+              <option value="friend">{t("info-rfriend")}</option>
+              <option value="other">{t("info-rother")}</option>
             </select>
           </div>
 
           <button type="submit" className="submit-btn pulse">
-            Reveal My Fortune
+            {t("form-submit")}
           </button>
         </form>
 
         {profiles.length > 0 && (
           <div className="saved-profiles">
-            <h3>Saved Profiles</h3>
+            <h3>{t("info-profiles")}</h3>
             <div className="profile-list">
               {profiles.map((profile, index) => (
                 <div
@@ -134,7 +137,10 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
                   className="profile-item"
                   onClick={() => switchProfile(profile)}
                 >
-                  <div className="profile-name">[{profile.gender ? 'F' : 'M'}] {profile.name}</div>
+                  <div className="profile-name">
+                    [{profile.gender ? t("gender-f") : t("gender-m")}]{" "}
+                    {profile.name}
+                  </div>
                   <div className="profile-details">
                     {new Date(profile.birthDate).toLocaleDateString()}
                   </div>

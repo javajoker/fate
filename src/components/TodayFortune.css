@@ -10,12 +10,12 @@
 }
 
 .fortune-date h2 {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-bottom: 0.25rem;
 }
 
 .fortune-date p {
-  color: #666;
+  color: #aaa;
   font-size: 1rem;
 }
 
@@ -53,16 +53,16 @@
 }
 
 .fortune-card.mood {
-  background-color: #f5f0ff;
+  background-color: #2a1b74;
   border-left: 5px solid var(--primary-color);
 }
 
 .fortune-card.mood h3 {
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .fortune-card.luck {
-  background-color: #fff8e1;
+  background-color: #351576;
   border-left: 5px solid var(--accent-color);
 }
 
@@ -71,7 +71,7 @@
 }
 
 .fortune-card.advice {
-  background-color: #e3f2fd;
+  background-color: #3f0f78;
   border-left: 5px solid var(--info-color);
 }
 
@@ -110,7 +110,7 @@
   height: 50px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  color: #2a1b74;
   display: flex;
   justify-content: center;
   align-items: center;

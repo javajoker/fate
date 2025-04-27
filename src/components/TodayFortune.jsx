@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import './TodayFortune.css';
+import React, { useState, useEffect } from "react";
+import "./TodayFortune.css";
+import { useTranslation } from "react-i18next";
 
 const TodayFortune = ({ userData }) => {
   const [fortune, setFortune] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+
+  const { t } = useTranslation();
+
   // Generate a deterministic but seemingly random fortune based on user data and current date
   useEffect(() => {
     setIsLoading(true);
-    
+
     setTimeout(() => {
       const today = new Date();
       const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
       const userString = `${userData.name}-${userData.birthDate}`;
-      
+
       // Simple hash function to generate a deterministic "random" number
       const hash = (str) => {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
           const char = str.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
+          hash = (hash << 5) - hash + char;
           hash = hash & hash; // Convert to 32bit integer
         }
         return Math.abs(hash);
       };
-      
+
       const combinedHash = hash(dateString + userString);
-      
+
       // Select fortune elements based on hash
       const moodIndex = combinedHash % moodPhrases.length;
       const luckIndex = (combinedHash >> 4) % luckPhrases.length;
       const adviceIndex = (combinedHash >> 8) % advicePhrases.length;
       const colorIndex = (combinedHash >> 12) % luckyColors.length;
       const numberIndex = (combinedHash >> 16) % 100;
-      
+
       setFortune({
         mood: moodPhrases[moodIndex],
         luck: luckPhrases[luckIndex],
@@ -42,57 +45,57 @@ const TodayFortune = ({ userData }) => {
         number: numberIndex,
         date: today.toLocaleDateString(),
       });
-      
+
       setIsLoading(false);
     }, 1000); // Simulating API call
   }, [userData]);
-  
+
   if (isLoading) {
     return (
       <div className="fortune-loading">
         <div className="spinner"></div>
-        <p>Reading the stars...</p>
+        <p>{t("today-loading")}</p>
       </div>
     );
   }
-  
+
   return (
     <div className="fortune-container slide-in-right">
       <div className="fortune-date">
-        <h2>Your Cosmic Forecast</h2>
-        <p>For {fortune.date}</p>
+        <h2>{t("today-header")}</h2>
+        <p>{t("today-for", { date: fortune.date ?? "" })}</p>
       </div>
-      
+
       <div className="fortune-card mood">
-        <h3>Mood & Energy</h3>
+        <h3>{t('today-mood')}</h3>
         <p>{fortune.mood}</p>
       </div>
-      
+
       <div className="fortune-card luck">
-        <h3>Luck & Opportunity</h3>
+        <h3>{t('today-luck')}</h3>
         <p>{fortune.luck}</p>
       </div>
-      
+
       <div className="fortune-card advice">
-        <h3>Cosmic Advice</h3>
+        <h3>{t('today-advice')}</h3>
         <p>{fortune.advice}</p>
       </div>
-      
-      <div className="fortune-extras">
+
+      {/* <div className="fortune-extras">
         <div className="lucky-item">
           <h4>Lucky Color</h4>
-          <div 
-            className="color-circle" 
+          <div
+            className="color-circle"
             style={{ backgroundColor: fortune.color }}
           ></div>
           <span>{fortune.color}</span>
         </div>
-        
+
         <div className="lucky-item">
           <h4>Lucky Number</h4>
           <div className="number-circle">{fortune.number}</div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -108,7 +111,7 @@ const moodPhrases = [
   "You may feel more introspective than usual. Honor this energy by making time for self-reflection.",
   "Dynamic energy fuels your actions today. Channel this power into your most important goals.",
   "You radiate confidence today. Others will be drawn to your positive presence and leadership.",
-  "A peaceful energy envelops you. Today brings opportunities for healing and restoration."
+  "A peaceful energy envelops you. Today brings opportunities for healing and restoration.",
 ];
 
 const luckPhrases = [
@@ -121,7 +124,7 @@ const luckPhrases = [
   "Collaborative efforts are especially favored today. Team projects will yield positive results.",
   "Your patience with a long-term project may soon be rewarded. Stay the course.",
   "A past investment of time or energy begins to show promising returns.",
-  "Doors that seemed closed may suddenly open. Approach them with confident curiosity."
+  "Doors that seemed closed may suddenly open. Approach them with confident curiosity.",
 ];
 
 const advicePhrases = [
@@ -134,12 +137,20 @@ const advicePhrases = [
   "Honor your physical well-being today. Your body wisdom offers valuable guidance.",
   "Consider a situation from an entirely new perspective. The solution may lie in changing your viewpoint.",
   "Share your gifts generously. The energy you put into the world returns multiplied.",
-  "Follow the path of joy today. Your authentic happiness is a compass pointing toward your purpose."
+  "Follow the path of joy today. Your authentic happiness is a compass pointing toward your purpose.",
 ];
 
 const luckyColors = [
-  "Emerald Green", "Royal Blue", "Golden Yellow", "Ruby Red", "Purple Amethyst",
-  "Turquoise", "Silver Gray", "Amber Orange", "Deep Indigo", "Rose Pink"
+  "Emerald Green",
+  "Royal Blue",
+  "Golden Yellow",
+  "Ruby Red",
+  "Purple Amethyst",
+  "Turquoise",
+  "Silver Gray",
+  "Amber Orange",
+  "Deep Indigo",
+  "Rose Pink",
 ];
 
 export default TodayFortune;

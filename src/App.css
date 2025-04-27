@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #673AB7 0%, #9C27B0 100%);
+  background: linear-gradient(135deg, #2a1b6e 0%, #420b73 100%);
   animation: gradientBG 15s ease infinite;
   background-size: 200% 200%;
 }
@@ -20,7 +20,7 @@
 }
 
 .card {
-  background-color: white;
+  background-color: #2a1b74;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   padding: 2rem;

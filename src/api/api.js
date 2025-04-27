@@ -6,6 +6,7 @@ export const API_URL = `${BASE_URL}/api`;
 
 export const fate = async (info) => {
   try {
+    console.log(info)
     const response = await axios.get(
       `${API_URL}/fate/${info.gender}/${info.year}/${info.month}/${info.day}/${info.hour}/${info.zone}`
     );

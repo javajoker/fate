@@ -10,14 +10,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: #2c1a75;
   border-radius: 12px;
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .dashboard-header h1 {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin: 0;
   font-size: 1.8rem;
 }
@@ -36,14 +36,14 @@
 
 .user-birthdate {
   font-size: 0.9rem;
-  color: #666;
+  color: #aaa;
 }
 
 .tab-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background: linear-gradient(180deg, #312e81 0%, #581c87 100%);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
@@ -51,7 +51,7 @@
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #271c6e;
 }
 
 .tab {
@@ -59,7 +59,7 @@
   padding: 1rem;
   background: none;
   border: none;
-  color: #666;
+  color: #aaa;
   font-weight: 600;
   transition: all 0.3s ease;
   position: relative;
@@ -67,14 +67,14 @@
 
 .tab:hover {
   background-color: rgba(103, 58, 183, 0.05);
-  color: var(--primary-color);
+  color: var(--text-color);
   transform: none;
   box-shadow: none;
 }
 
 .tab.active {
-  color: var(--primary-color);
-  background-color: transparent;
+  color: var(--text-color);
+  background-color: #2c1a75;
 }
 
 .tab.active::after {
@@ -95,7 +95,7 @@
 
 .tab-content {
   flex: 1;
-  padding: 2rem;
+  padding: 0.5rem;
   overflow-y: auto;
 }
 

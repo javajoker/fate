@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import './Dashboard.css';
-import TodayFortune from './TodayFortune';
-import LifeChart from './LifeChart';
-import UserInfo from './UserInfo';
+import React, { useState, useEffect } from "react";
+import "./Dashboard.css";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
+import TodayFortune from "./TodayFortune";
+import LifeChart from "./LifeChart";
+import UserInfo from "./UserInfo";
 
-const Dashboard = ({ userData, resetUser, profileList, updateProfiles, switchProfile }) => {
-  const [activeTab, setActiveTab] = useState('fortune');
+const Dashboard = ({
+  userData,
+  resetUser,
+  profileList,
+  updateProfiles,
+  switchProfile,
+}) => {
+  const [activeTab, setActiveTab] = useState("fortune");
   const [isAnimating, setIsAnimating] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleTabChange = (tab) => {
     if (tab !== activeTab) {
@@ -21,39 +31,47 @@ const Dashboard = ({ userData, resetUser, profileList, updateProfiles, switchPro
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>Cosmic Insights</h1>
+        <LanguageSwitcher />
+        <h1>{t("dash-header")}</h1>
         <div className="user-info-brief">
-          <span className="user-name">[{userData.gender ? 'F' : 'M'}] {userData.name}</span>
-          <span className="user-birthdate">{new Date(userData.birthDate).toLocaleDateString()}</span>
+          <div className="tab active">
+            <span className="user-name">
+              {/* [{userData.gender ? t("gender-f") : t("gender-m")}]  */}
+              {userData.name}
+            </span>
+            {/* <span className="user-birthdate">
+            {new Date(userData.birthDate).toLocaleDateString()}
+          </span> */}
+          </div>
         </div>
       </header>
 
       <div className="tab-container">
         <div className="tabs">
           <button
-            className={`tab ${activeTab === 'fortune' ? 'active' : ''}`}
-            onClick={() => handleTabChange('fortune')}
+            className={`tab ${activeTab === "fortune" ? "active" : ""}`}
+            onClick={() => handleTabChange("fortune")}
           >
-            Today's Fortune
+            {t("today-tab")}
           </button>
           <button
-            className={`tab ${activeTab === 'life' ? 'active' : ''}`}
-            onClick={() => handleTabChange('life')}
+            className={`tab ${activeTab === "life" ? "active" : ""}`}
+            onClick={() => handleTabChange("life")}
           >
-            My Life
+            {t("life-tab")}
           </button>
           <button
-            className={`tab ${activeTab === 'info' ? 'active' : ''}`}
-            onClick={() => handleTabChange('info')}
+            className={`tab ${activeTab === "info" ? "active" : ""}`}
+            onClick={() => handleTabChange("info")}
           >
-            My Info
+            {t("info-tab")}
           </button>
         </div>
 
-        <div className={`tab-content ${isAnimating ? 'fade-out' : 'fade-in'}`}>
-          {activeTab === 'fortune' && <TodayFortune userData={userData} />}
-          {activeTab === 'life' && <LifeChart userData={userData} />}
-          {activeTab === 'info' && (
+        <div className={`tab-content ${isAnimating ? "fade-out" : "fade-in"}`}>
+          {activeTab === "fortune" && <TodayFortune userData={userData} />}
+          {activeTab === "life" && <LifeChart userData={userData} />}
+          {activeTab === "info" && (
             <UserInfo
               userData={userData}
               resetUser={resetUser}
