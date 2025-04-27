@@ -1,0 +1,213 @@
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.current-profile h3,
+.saved-profiles h3,
+.edit-form-container h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.current-profile h3::after,
+.saved-profiles h3::after,
+.edit-form-container h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.profile-details-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-header h4 {
+  color: var(--text-color);
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.relationship-tag {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.profile-detail {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.detail-label {
+  width: 100px;
+  font-weight: 500;
+  color: #666;
+}
+
+.detail-value {
+  flex: 1;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.edit-btn, .switch-btn {
+  background-color: var(--info-color);
+}
+
+.new-reading-btn {
+  background-color: var(--accent-color);
+}
+
+.delete-btn {
+  background-color: var(--danger-color);
+}
+
+.edit-form-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.profiles-grid {
+
+}
+
+.profile-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.profile-card-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.save-btn {
+  background-color: var(--info-color);
+}
+
+.cancel-btn {
+  background-color: var(--accent-color);
+}
+
+/* Modal styling with fancy UI */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.confirm-modal {
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 
+              0 6px 10px rgba(0, 0, 0, 0.05),
+              0 0 0 1px rgba(0, 0, 0, 0.03);
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  transform: translateY(0);
+  animation: slideUp 0.4s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.confirm-modal h4 {
+  margin: 0 0 1.2rem 0;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.confirm-modal h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7070, #ff9770);
+  border-radius: 3px;
+}
+
+.confirm-modal p {
+  margin-bottom: 1.8rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.confirm-btn {
+  background-color: var(--danger-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}

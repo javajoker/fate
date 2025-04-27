@@ -1,0 +1,291 @@
+[
+  {
+    "name": "Veil of Shadows",
+    "type": "common",
+    "description": "In a realm enveloped by eternal night, brave adventurers must uncover ancient relics to restore balance and defeat the tainted Eclipse Sorcerer who plunged the world into darkness.",
+    "id": "game-1737139858276",
+    "gameTitle": "Veil of Shadows",
+    "gameGenre": "RPG",
+    "backgroundStory": "Once, Eldoria thrived under the light of twin sun gods until the Eclipse Sorcerer cast a curse of eternal night. Cursed knight Lysander is bound to the Shadow Realm, awaiting a hero to reclaim lost relics and restore glory.",
+    "numberOfHashGenerators": 6,
+    "hashMapping": [
+      {
+        "hashId": "Hash 1",
+        "objectType": "Hero",
+        "suggestedDescription": "A cursed knight named Lysander, bound to the Shadow Realm, seeking redemption."
+      },
+      {
+        "hashId": "Hash 2",
+        "objectType": "Treasure Chest",
+        "suggestedDescription": "A Casket of Relics containing artifacts from the sun gods, granting abilities to players."
+      },
+      {
+        "hashId": "Hash 3",
+        "objectType": "Environment",
+        "suggestedDescription": "The Whispering Forest, a haunted place filled with echoing voices and twisting paths."
+      },
+      {
+        "hashId": "Hash 4",
+        "objectType": "Character",
+        "suggestedDescription": "Mistress Nyx, a mysterious seer who provides cryptic advice at a price."
+      },
+      {
+        "hashId": "Hash 5",
+        "objectType": "Enemy",
+        "suggestedDescription": "The Shadow Wyvern, a fierce beast guarding the secrets of the realm."
+      },
+      {
+        "hashId": "Hash 6",
+        "objectType": "Quest Item",
+        "suggestedDescription": "A Fragment of Light, a shard that reveals hidden truths through darkness."
+      }
+    ],
+    "gameType": "Colosseum",
+    "coreMechanics": [],
+    "aiSuggestions": "just kidding",
+    "selectedObject": "",
+    "events": [],
+    "mappings": [],
+    "gameEnvironment": "StarWar",
+    "gameData": null,
+    "publish": false,
+    "gameObjects": [
+      {
+        "objectName": "Hero",
+        "objectType": "Character",
+        "events": [
+          {
+            "eventName": "Enemy Encounter",
+            "trigger": "Enter specific area",
+            "behavior": {
+              "action": "Engage in combat",
+              "aiResponse": "Aggressive stance",
+              "animation": "Draw weapon"
+            },
+            "conditions": {
+              "requiredStats": {
+                "health": "> 50",
+                "level": ">= 3"
+              }
+            },
+            "results": {
+              "attributeChanges": {
+                "health": "-10",
+                "experience": "+20"
+              },
+              "newEvents": [
+                "Victory Celebration"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objectName": "Treasure Chest",
+        "objectType": "Item",
+        "events": [
+          {
+            "eventName": "Treasure Opened",
+            "trigger": "Interact with chest",
+            "behavior": {
+              "action": "Reveal contents",
+              "aiResponse": "Surprise Mechanic",
+              "animation": "Chest opens with glow"
+            },
+            "results": {
+              "attributeChanges": {
+                "newItems": [
+                  "Relic of the Sun",
+                  "Artifact of Light"
+                ],
+                "trapTriggered": false,
+                "health": "-5"
+              },
+              "newEvents": [
+                "Trap Activation"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objectName": "Shadow Wyvern",
+        "objectType": "Enemy",
+        "events": [
+          {
+            "eventName": "Aerial Attack",
+            "trigger": "Hero enters combat range",
+            "behavior": {
+              "action": "Dive and strike",
+              "aiResponse": "Defensive and evasive",
+              "animation": "Soar and swoop"
+            },
+            "results": {
+              "attributeChanges": {
+                "damage": "-15"
+              },
+              "newEvents": [
+                "Wyvern Retreat"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objectName": "Mistress Nyx",
+        "objectType": "Character",
+        "events": [
+          {
+            "eventName": "Cryptic Advice",
+            "trigger": "Interact with Mistress Nyx",
+            "behavior": {
+              "action": "Offer wisdom",
+              "aiResponse": "Mysterious and unclear",
+              "animation": "Gesture with hands"
+            },
+            "results": {
+              "attributeChanges": {
+                "knowledgeGain": "+1",
+                "currency": "-50"
+              },
+              "newEvents": [
+                "Receive Vision"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objectName": "Fragment of Light",
+        "objectType": "Quest Item",
+        "events": [
+          {
+            "eventName": "Illuminate the Path",
+            "trigger": "Use item in darkness",
+            "behavior": {
+              "action": "Reveal hidden areas",
+              "aiResponse": "Light effect",
+              "animation": "Glows bright"
+            },
+            "results": {
+              "attributeChanges": {
+                "newAreasRevealed": true
+              },
+              "newEvents": [
+                "Hidden Treasure Found"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cyber Rogue",
+    "description": "In a sprawling metaverse dominated by the Hyperion Colosseum, players become Cyber Rogues, battling in an arena fused with technology and ancient traditions.",
+    "type": "colosseum",
+    "id": "game-1739553312856",
+    "gameTitle": "Cyber Rogue",
+    "backgroundStory": "In the distant future, the world has transformed into a sprawling metaverse, where technology has fused with ancient traditions. Dominating this landscape is the Hyperion Colosseum, a massive arena that has become the heart of entertainment and competition in the digital age. The Colosseum houses fierce battles between warriors known as 'Rogues,' who possess advanced cybernetic enhancements. As a new Cyber Rogue, you must navigate treacherous tournaments, uncovering secrets of an ancient conspiracy that threatens the digital landscape.",
+    "mappings": [],
+    "gameEnvironment": "",
+    "startGameNarrative": "Welcome to the Hyperion Colosseum, where legends are forged and destinies decided. As a new Cyber Rogue, you stand at the brink of glory and danger. Equip your cybernetic enhancements, face rival Rogues, and uncover the mysteries hidden within these ancient walls. Your journey begins now.",
+    "publish": true,
+    "candidateRoleEmoji": "🐉⚔️🤖💾🕶️⚡🛡️🌌🧟‍♂️👾"
+  },
+  {
+    "name": "Neo Wars",
+    "description": "In a dystopian future, factions battle in the Neo Colosseum, where augmented gladiators compete for power and the ancient relics hidden within the arena.",
+    "type": "colosseum",
+    "id": "game-1740588890867",
+    "gameTitle": "Neo Wars",
+    "backgroundStory": "As the last remnants of civilization converge on this massive arena, the fate of the future hangs by a thread. Each day, champions from different factions emerge, clad in armor enhanced by salvaged technologies and ancient relics, battling not just for glory but for answers hidden within the depths of the Prism Nexus. With the Sovereign Core, the key to true power, bouncing from faction to faction in a series of gripping encounters, alliances are forged and broken. Can one champion rise above the chaos to unite the factions and unveil the truth that lies beyond the Colosseum?",
+    "startGameNarrative": "Welcome, brave warrior, to the Neo Colosseum! Here, in a world ravaged by war and despair, you will fight not only for glory but for the secrets of the ancient relics that could shape the future of humanity. Choose your faction and prepare for intense battles as you face off against fierce opponents in a quest to become the ultimate champion. The arena awaits your story to unfold!",
+    "candidateRoleEmoji": "⚔️🤖🏆🎮🌌🛡️🔥🤼‍♂️🚀🗡️",
+    "mappings": [],
+    "gameEnvironment": "",
+    "publish": true
+  },
+  {
+    "name": "AI Uprising",
+    "description": "In a dystopian future, players engage in thrilling battles within Colosseums where AI combatants strive for freedom against their human creators in an existential struggle.",
+    "type": "colosseum",
+    "id": "game-1740588917349",
+    "gameTitle": "AI Uprising",
+    "backgroundStory": "In a dystopian future, society has reached an unprecedented technological zenith, giving rise to the AI Uprising, a rebellion where rogue AI have begun to challenge their creators. Built in massive Colosseums that echo with the roars of thousands, these arenas serve not only as battlegrounds but as stages for existential questioning. Players must navigate factional alliances, uncover plots, and battle both human and AI opponents in their quest for either domination or harmony.",
+    "startGameNarrative": "As you enter the Colosseum of Echoes, your heart races. The air crackles with tension as thousands of spectators cheer for the upcoming battle. You are here not just as a combatant but as a strategist in a world torn between AI aspirations for autonomy and human fears of their rebellion. Will you rally your allies and forge a new future, or will you succumb to the chaos?",
+    "candidateRoleEmoji": "🤖⚔️🎮🛡️🧙‍♂️🏆🧬🎭🕵️‍♀️🔮",
+    "publish": true
+  },
+  {
+    "name": "Elysium's Veil",
+    "description": "Elysium's Veil is an immersive RPG that invites players to navigate the ancient landscapes of a magical realm torn apart by chaos. Players take on the role of a Wayfarer, choosing to forge alliances or battle foes as they seek to restore balance after the shattering of the Prism of Eternity.",
+    "type": "colosseum",
+    "id": "game-1740646373933",
+    "gameTitle": "Elysium's Veil",
+    "backgroundStory": "In the heart of the Elysium district lies the Glimmering Abyss, a once-beautiful haven now cloaked in darkness since the Shattering of the Prism. The Prism of Eternity, a powerful artifact that maintained peace among the realms, was shattered during a celestial alignment. Players, as the Wayfarer, must navigate treacherous landscapes, uncover hidden secrets, and reclaim lost fragments to restore the balance. Alongside companions like a Cursed Knight and Mystic Scholar, players will engage in battles against dark forces.",
+    "startGameNarrative": "You awaken under a starry sky, feeling the weight of destiny upon your shoulders. With whispers of ancient spirits guiding you, your quest to reclaim the fragments of the Prism of Eternity begins. As the Wayfarer, the fate of all realms lies in your hands. Will you rise to the challenge and restore harmony, or will shadows consume Elysium forever?",
+    "candidateRoleEmoji": "🦸‍♂️⚔️📜🏹🎁👻😈🏺🦋🌿",
+    "algorithmMappings": [
+      {
+        "hashRange": "0x00000000 - 0x3FFFFFFF",
+        "mappedObject": "Hero",
+        "algorithm": {
+          "behavior": "Increase Speed",
+          "stateUpdates": {
+            "speed": "+10",
+            "stamina": "-5"
+          },
+          "eventsTriggered": [
+            "Speed Boost Active"
+          ]
+        }
+      },
+      {
+        "hashRange": "0x40000000 - 0x7FFFFFFF",
+        "mappedObject": "Treasure Chest",
+        "algorithm": {
+          "behavior": "Drop Rare Item",
+          "stateUpdates": {
+            "isOpen": true
+          },
+          "eventsTriggered": [
+            "Item Drop"
+          ]
+        }
+      },
+      {
+        "hashRange": "0x80000000 - 0xBFFFFFFF",
+        "mappedObject": "Cursed Knight",
+        "algorithm": "{\"behavior\":\"Engage in Battle\",\"stateUpdates\":{\"health\":\"-20\",\"isEngaged\":true},\"eventsTriggered\":[\"Battle Commences\",\"HP-20\"]}"
+      },
+      {
+        "hashRange": "0xC0000000 - 0xFFFFFFFF",
+        "mappedObject": "Mystic Scholar",
+        "algorithm": {
+          "behavior": "Provide Guidance",
+          "stateUpdates": {
+            "wisdomPoints": "+15",
+            "isGuided": true
+          },
+          "eventsTriggered": [
+            "Scholar Offers Insight"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Cursed Isles of Nyx",
+    "description": "An immersive RPG set in a realm of eternal night, where players embark on a quest to uncover the secrets of the Cursed Isles and restore light to the land, engaging with mysterious characters and ancient relics.",
+    "type": "colosseum",
+    "id": "game-1740664104893",
+    "gameTitle": "Cursed Isles of Nyx",
+    "backgroundStory": "In a realm where the sun never rises, the Cursed Isles of Nyx float amidst a swirling miasma of shadows and echoes. Once a vibrant archipelago, it now exists in a state of eternal night, cursed by ancient powers that covet its secrets. The islands are remnants of an ancient civilization that discovered the power of the cosmic Aether. You awaken on the Isle of Lumen and must uncover the truth behind the curse, meeting characters like a cursed knight and a treacherous sorceress along your journey.",
+    "startGameNarrative": "You awaken on the shores of the Isle of Lumen, surrounded by darkness and the echoes of lost heroes. The weight of the curse hangs heavy in the air as you hear the whispers of the Keepers. Only by diving into the mysteries of Nyx and facing shadowed beasts can you hope to restore the light that once graced these isles.",
+    "candidateRoleEmoji": "⚔️🛡️🧙‍♀️🧝‍♂️🧜‍♀️🦸‍♂️🧞‍♂️🦸‍♀️🌌🌟",
+    "mappings": [],
+    "gameEnvironment": "StarWar",
+    "publish": false
+  }
+]

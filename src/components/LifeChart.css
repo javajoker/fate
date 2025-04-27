@@ -1,0 +1,187 @@
+.life-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.life-header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.life-header h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.life-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.life-chart {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.life-chart h3, 
+.phase-details h3,
+.elements-chart h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.life-chart h3::after,
+.phase-details h3::after,
+.elements-chart h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.phases-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.phase-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+}
+
+.phase-bar-container {
+  height: 160px;
+  width: 30px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.phase-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+  border-radius: 4px 4px 0 0;
+  transition: height 1s ease;
+}
+
+.phase-label {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+}
+
+.scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 160px;
+  font-size: 0.8rem;
+  color: #666;
+  position: relative;
+  left: -10px;
+}
+
+.phase-details {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.current-phase {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.phase-card {
+  flex: 1;
+  min-width: 250px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.phase-card.next {
+  border-left-color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+.phase-card h4 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.phase-intensity {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.intensity-bar {
+  height: 8px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.elements-chart {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.radar-chart {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.radar-chart svg {
+  width: 100%;
+  height: auto;
+}
+
+.elements-interpretation {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.elements-interpretation h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+}
+
+.elements-interpretation p {
+  line-height: 1.6;
+}
+
+.life-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+

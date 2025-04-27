@@ -1,0 +1,111 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-header h1 {
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.user-info-brief {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.user-birthdate {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tab-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tab:hover {
+  background-color: rgba(103, 58, 183, 0.05);
+  color: var(--primary-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.tab.active {
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.tab-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out;
+  opacity: 0;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(10px); }
+}
+
