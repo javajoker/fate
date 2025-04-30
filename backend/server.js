@@ -23,16 +23,19 @@ const readFate = () => JSON.parse(fs.readFileSync(fateFilePath, "utf8"));
 const writeFate = (data) =>
   fs.writeFileSync(fateFilePath, JSON.stringify(data, null, 2));
 
+
 // API Routes
-app.get("/api/fate/:gender/:year/:month/:day/:hour/:zone", async (req, res) => {
-  const { gender, year, month, day, hour, zone } = req.params;
-  const response = await axios.post(
-    "https://iching.infoecos.com/destiny/json.php",
-    `y=${year}&m=${month}&d=${day}&h=${hour}&i=0&gender=${gender}&timezone=${
-      zone || "CCT"
-    }`
-  );
-  res.json(response.data);
+app.get("/api/fate/:gender/:year/:month/:day/:hour", async (req, res) => {
+  const { gender, year, month, day, hour } = req.params;
+
+  const { parseSelf } = await import("./fate/index.mjs");
+  res.json(parseSelf(gender, year, month, day, hour));
+
+  // const response = await axios.post(
+  //   "https://iching.infoecos.com/destiny/json.php",
+  //   `y=${year}&m=${month}&d=${day}&h=${hour}&i=0&gender=${gender}&timezone=CCT`
+  // );
+  // res.json(response.data);
 });
 
 const FATE = [];

@@ -42,7 +42,6 @@ const LifeChart = ({ userData }) => {
       month: date.getMonth() + 1,
       day: date.getDate(),
       hour: date.getHours(),
-      zone: "CCT",
     }).then((res) => {
       console.log(res);
 
@@ -55,7 +54,7 @@ const LifeChart = ({ userData }) => {
       const lifePhases = generateLifePhases(userHash);
 
       // Calculate element strengths
-      const elements = generateElementStrengths(userHash);
+      const elements = res;
 
       setLifeData({
         phases: lifePhases,
@@ -100,59 +99,53 @@ const LifeChart = ({ userData }) => {
     return phases;
   };
 
-  // Generate element strengths based on the hash
-  const generateElementStrengths = (hash) => {
-    return {
-      yin: {
-        fire: Math.min(100, Math.max(20, (hash % 80) + 20)),
-        water: Math.min(100, Math.max(20, ((hash >> 4) % 80) + 20)),
-        earth: Math.min(100, Math.max(20, ((hash >> 8) % 80) + 20)),
-        wood: Math.min(100, Math.max(20, ((hash >> 12) % 80) + 20)),
-        metal: Math.min(100, Math.max(20, ((hash >> 16) % 80) + 20)),
-      },
-      yang: {
-        fire: Math.min(100, Math.max(20, ((hash >> 4) % 80) + 20)),
-        water: Math.min(100, Math.max(20, (hash % 80) + 20)),
-        earth: Math.min(100, Math.max(20, ((hash >> 12) % 80) + 20)),
-        wood: Math.min(100, Math.max(20, ((hash >> 8) % 80) + 20)),
-        metal: Math.min(100, Math.max(20, ((hash >> 16) % 80) + 20)),
-      },
-    };
-  };
-
   const toRadarData = (elements) => {
-    return [
+    const yin = elements.yin,
+      yang = elements.yang,
+      self = elements.self;
+    const res = [
       {
         subject: "🪵🌱",
-        yin: elements?.yin?.wood ?? 0,
-        yang: elements?.yang?.wood ?? 0,
+        all: (yang.wood ?? 0) + (yin.wood ?? 0),
+        host: self.yy == "yang" ? yang.wood ?? 0 : yin.wood ?? 0,
+        self: self.ele == "wood" ? self.val : 0,
         fullMark: 100,
       },
       {
         subject: "🌋🔥",
-        yin: elements?.yin?.fire ?? 0,
-        yang: elements?.yang?.fire ?? 0,
+        all: (yang.fire ?? 0) + (yin.fire ?? 0),
+        host: self.yy == "yang" ? yang.fire ?? 0 : yin.fire ?? 0,
+        self: self.ele == "fire" ? self.val : 0,
         fullMark: 100,
       },
       {
         subject: "⛰️🛤",
-        yin: elements?.yin?.earth ?? 0,
-        yang: elements?.yang?.earth ?? 0,
+        all: (yang.earth ?? 0) + (yin.earth ?? 0),
+        host: self.yy == "yang" ? yang.earth ?? 0 : yin.earth ?? 0,
+        self: self.ele == "earth" ? self.val : 0,
         fullMark: 100,
       },
       {
         subject: "🗡️🧈",
-        yin: elements?.yin?.metal ?? 0,
-        yang: elements?.yang?.metal ?? 0,
+        all: (yang.metal ?? 0) + (yin.metal ?? 0),
+        host: self.yy == "yang" ? yang.metal ?? 0 : yin.metal ?? 0,
+        self: self.ele == "metal" ? self.val : 0,
         fullMark: 100,
       },
       {
         subject: "🌊💦",
-        yin: elements?.yin?.water ?? 0,
-        yang: elements?.yang?.water ?? 0,
+        all: (yang.water ?? 0) + (yin.water ?? 0),
+        host: self.yy == "yang" ? yang.water ?? 0 : yin.water ?? 0,
+        self: self.ele == "water" ? self.val : 0,
         fullMark: 100,
       },
     ];
+    res.forEach((v) => {
+      v.all = Math.round(100 * Math.sqrt(v.all / self.val));
+      v.host = Math.round(100 * Math.sqrt(v.host / self.val));
+      if (v.self) v.self = 100;
+    });
+    return res;
   };
 
   // Get description for a life phase based on its intensity
@@ -249,17 +242,24 @@ const LifeChart = ({ userData }) => {
               <PolarRadiusAxis angle={54} domain={[0, "dataMax"]} />
               <Tooltip />
               <Radar
-                name="🌞"
-                dataKey="yang"
+                name="ALL"
+                dataKey="all"
                 stroke="#8884d8"
                 fill="#8884d8"
                 fillOpacity={0.6}
               />
               <Radar
-                name="🌜"
-                dataKey="yin"
+                name={`${lifeData.elements.self.yin ? "🌜" : "🌞"}`}
+                dataKey="host"
                 stroke="#82ca9d"
                 fill="#82ca9d"
+                fillOpacity={0.6}
+              />
+              <Radar
+                name="👤"
+                dataKey="self"
+                stroke="red"
+                fill="red"
                 fillOpacity={0.6}
               />
             </RadarChart>

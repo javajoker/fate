@@ -8,7 +8,7 @@ export const fate = async (info) => {
   try {
     console.log(info)
     const response = await axios.get(
-      `${API_URL}/fate/${info.gender}/${info.year}/${info.month}/${info.day}/${info.hour}/${info.zone}`
+      `${API_URL}/fate/${info.gender}/${info.year}/${info.month}/${info.day}/${info.hour}`
     );
     return response.data;
   } catch (error) {

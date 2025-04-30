@@ -3,10 +3,12 @@ import i18n from "../i18n";
 import "./LanguageSwitcher.css";
 
 function LanguageSwitcher() {
-  const [language, setLanguage] = useState("en");
+  const lang = localStorage.getItem("lang") ?? "en";
+  const [language, setLanguage] = useState(lang);
 
   useEffect(() => {
     i18n.changeLanguage(language);
+    localStorage.setItem('lang', language);
   }, [language]);
 
   return (
