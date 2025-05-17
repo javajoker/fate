@@ -163,7 +163,7 @@ const parseSelf = (gender, year, month, day, hour) => {
   pillars.push(getStems(lunisolar.char8.year));
   pillars.push(getStems(lunisolar.char8.month));
   pillars.push(getStems(lunisolar.char8.day));
-  pillars.push(getStems(lunisolar.char8.hour));
+  if (hour >= 0) pillars.push(getStems(lunisolar.char8.hour));
   const weight = initWeight(pillars, 1);
   const seq = [];
   for (let i = 0; i < pillars.length - 1; ++i) {
@@ -172,6 +172,7 @@ const parseSelf = (gender, year, month, day, hour) => {
     }
   }
   updateWeight(weight, pillars, seq);
+  console.log(pillars, weight);
   const ele = getElements(weight, pillars);
   const host = pillars[2][0][0],
     elements = ["wood", "fire", "earth", "metal", "water"];

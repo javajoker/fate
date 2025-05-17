@@ -29,7 +29,7 @@ const LifeChart = ({ userData }) => {
     let birthTime = `${userData.birthDate}T${userData.birthTime || "00:00:00"}`;
     const lookup = lookupViaCity(userData.birthPlace);
     console.log(lookup);
-    if (lookup?.length > 0) {
+    if (userData.birthTime && lookup?.length > 0) {
       birthTime = moment
         .tz(birthTime, lookup[0].timezone)
         .tz("Asia/Shanghai")
@@ -41,7 +41,7 @@ const LifeChart = ({ userData }) => {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
       day: date.getDate(),
-      hour: date.getHours(),
+      hour: userData.birthTime ? date.getHours() : -1,
     }).then((res) => {
       console.log(res);
 
