@@ -28,6 +28,21 @@ const Dashboard = ({
     }
   };
 
+  // Show location information if available
+  const getLocationDisplay = () => {
+    if (userData.latitude && userData.longitude) {
+      return (
+        <span className="user-location">
+          {userData.birthPlace}
+          <span className="coord-badge">
+            {userData.latitude}, {userData.longitude}
+          </span>
+        </span>
+      );
+    }
+    return <span className="user-birthdate">{userData.birthPlace}</span>;
+  };
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -40,8 +55,9 @@ const Dashboard = ({
               {userData.name}
             </span>
             {/* <span className="user-birthdate">
-            {new Date(userData.birthDate).toLocaleDateString()}
-          </span> */}
+              {new Date(userData.birthDate).toLocaleDateString()}
+            </span>
+            {getLocationDisplay()} */}
           </div>
         </div>
       </header>

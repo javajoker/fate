@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserInfo.css";
 import { useTranslation } from "react-i18next";
+import { geoSuggestion } from "../api/api";
 
 const UserInfo = ({
   userData,
@@ -13,8 +14,14 @@ const UserInfo = ({
   const [formData, setFormData] = useState({ ...userData });
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const [locationSuggestions, setLocationSuggestions] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setFormData({ ...userData });
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +29,44 @@ const UserInfo = ({
       ...formData,
       [name]: value,
     });
+
+    // Clear coordinates when birth place changes
+    if (name === "birthPlace") {
+      setFormData((prev) => ({
+        ...prev,
+        latitude: "",
+        longitude: "",
+        timezone: "",
+      }));
+
+      // Get location suggestions
+      if (value.length > 2) {
+        setIsSearching(true);
+        fetchLocationSuggestions(value);
+      } else {
+        setLocationSuggestions([]);
+      }
+    }
+  };
+
+  const fetchLocationSuggestions = (query) => {
+    setTimeout(() => {
+      const suggestions = geoSuggestion(query);
+      setLocationSuggestions(suggestions);
+      setIsSearching(false);
+    }, 500);
+  };
+
+  const selectLocation = (suggestion) => {
+    console.log(suggestion);
+    setFormData({
+      ...formData,
+      birthPlace: suggestion.place,
+      latitude: suggestion.lat.toFixed(4),
+      longitude: suggestion.lng.toFixed(4),
+      timezone: suggestion.timezone,
+    });
+    setLocationSuggestions([]);
   };
 
   const handleSubmit = (e) => {
@@ -97,6 +142,19 @@ const UserInfo = ({
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="gender">{t("info-gender")}</label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+              >
+                <option value="0">{t("info-m")}</option>
+                <option value="1">{t("info-f")}</option>
+              </select>
+            </div>
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="birthDate">{t("info-date")}</label>
@@ -122,29 +180,64 @@ const UserInfo = ({
               </div>
             </div>
 
+            <div className="form-group location-input">
+              <label htmlFor="birthPlace">{t("info-place")}</label>
+              <input
+                type="text"
+                id="birthPlace"
+                name="birthPlace"
+                value={formData.birthPlace}
+                onChange={handleChange}
+                required
+              />
+              {isSearching && (
+                <div className="location-loading">
+                  <div className="location-spinner"></div>
+                  <span>{t("info-place-search")}</span>
+                </div>
+              )}
+              {locationSuggestions.length > 0 && (
+                <div className="location-suggestions">
+                  {locationSuggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="location-item"
+                      onClick={() => selectLocation(suggestion)}
+                    >
+                      <div className="location-name">{suggestion.place}</div>
+                      <div className="location-coords">
+                        {suggestion.lat.toFixed(4)}, {suggestion.lng.toFixed(4)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="gender">{t("info-gender")}</label>
-                <select
-                  id="gender"
-                  name="gender"
-                  value={formData.gender}
+                <label htmlFor="latitude">{t("info-lat")}</label>
+                <input
+                  type="text"
+                  id="latitude"
+                  name="latitude"
+                  value={formData.latitude}
                   onChange={handleChange}
-                >
-                  <option value="0">{t("info-m")}</option>
-                  <option value="1">{t("info-f")}</option>
-                </select>
+                  placeholder={t("auto-fill")}
+                  readOnly
+                />
               </div>
 
               <div className="form-group">
-                <label htmlFor="birthPlace">{t("info-place")}</label>
+                <label htmlFor="longitude">{t("info-lng")}</label>
                 <input
                   type="text"
-                  id="birthPlace"
-                  name="birthPlace"
-                  value={formData.birthPlace}
+                  id="longitude"
+                  name="longitude"
+                  value={formData.longitude}
                   onChange={handleChange}
-                  required
+                  placeholder={t("auto-fill")}
+                  readOnly
                 />
               </div>
             </div>

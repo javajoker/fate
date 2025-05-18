@@ -53,7 +53,6 @@ const App = () => {
   const switchProfile = (profile) => {
     setUserData(profile);
     localStorage.setItem('lastActiveProfile', JSON.stringify(profile));
-    setUserData(profile);
     setIsFormVisible(false);
   };
 

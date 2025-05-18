@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./LifeChart.css";
 import { useTranslation } from "react-i18next";
-import { fate } from "../api/api";
-import { lookupViaCity } from "city-timezones";
-import moment from "moment-timezone";
+import { fate, getPillarInfo } from "../api/api";
 import FiveRadar from "./FiveRadar";
 import {
   Radar,
@@ -25,26 +23,9 @@ const LifeChart = ({ userData }) => {
   useEffect(() => {
     setIsLoading(true);
 
-    console.log(userData);
-    let birthTime = `${userData.birthDate}T${userData.birthTime || "00:00:00"}`;
-    const lookup = lookupViaCity(userData.birthPlace);
-    console.log(lookup);
-    if (userData.birthTime && lookup?.length > 0) {
-      birthTime = moment
-        .tz(birthTime, lookup[0].timezone)
-        .tz("Asia/Shanghai")
-        .format("YYYY-MM-DD HH:mm:ss");
-    }
-    const date = new Date(birthTime);
-    fate({
-      gender: userData.gender || 0,
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-      hour: userData.birthTime ? date.getHours() : -1,
-    }).then((res) => {
+    const pillarInfo = getPillarInfo(userData);
+    fate(pillarInfo).then((res) => {
       console.log(res);
-
       // Generate deterministic "random" data based on user input
       const userHash = hashCode(
         `${userData.name}-${userData.birthDate}-${userData.birthPlace}`
@@ -100,52 +81,119 @@ const LifeChart = ({ userData }) => {
   };
 
   const toRadarData = (elements) => {
-    const yin = elements.yin,
-      yang = elements.yang,
-      self = elements.self;
+    const self = elements.self,
+      yy = self.e % 2;
+    const es = elements.es;
     const res = [
       {
         subject: "🪵🌱",
-        all: (yang.wood ?? 0) + (yin.wood ?? 0),
-        host: self.yy == "yang" ? yang.wood ?? 0 : yin.wood ?? 0,
-        self: self.ele == "wood" ? self.val : 0,
+        all: (es[0] ?? 0) + (es[1] ?? 0),
+        host: es[0 + yy] ?? 0,
+        self: self.e >> 1 === 0 ? self.v : 0,
         fullMark: 100,
       },
       {
         subject: "🌋🔥",
-        all: (yang.fire ?? 0) + (yin.fire ?? 0),
-        host: self.yy == "yang" ? yang.fire ?? 0 : yin.fire ?? 0,
-        self: self.ele == "fire" ? self.val : 0,
+        all: (es[2] ?? 0) + (es[3] ?? 0),
+        host: es[2 + yy] ?? 0,
+        self: self.e >> 1 === 1 ? self.v : 0,
         fullMark: 100,
       },
       {
         subject: "⛰️🛤",
-        all: (yang.earth ?? 0) + (yin.earth ?? 0),
-        host: self.yy == "yang" ? yang.earth ?? 0 : yin.earth ?? 0,
-        self: self.ele == "earth" ? self.val : 0,
+        all: (es[4] ?? 0) + (es[5] ?? 0),
+        host: es[4 + yy] ?? 0,
+        self: self.e >> 1 === 2 ? self.v : 0,
         fullMark: 100,
       },
       {
         subject: "🗡️🧈",
-        all: (yang.metal ?? 0) + (yin.metal ?? 0),
-        host: self.yy == "yang" ? yang.metal ?? 0 : yin.metal ?? 0,
-        self: self.ele == "metal" ? self.val : 0,
+        all: (es[6] ?? 0) + (es[7] ?? 0),
+        host: es[6 + yy] ?? 0,
+        self: self.e >> 1 === 3 ? self.v : 0,
         fullMark: 100,
       },
       {
         subject: "🌊💦",
-        all: (yang.water ?? 0) + (yin.water ?? 0),
-        host: self.yy == "yang" ? yang.water ?? 0 : yin.water ?? 0,
-        self: self.ele == "water" ? self.val : 0,
+        all: (es[8] ?? 0) + (es[9] ?? 0),
+        host: es[8 + yy] ?? 0,
+        self: self.e >> 1 === 4 ? self.v : 0,
         fullMark: 100,
       },
     ];
     res.forEach((v) => {
-      v.all = Math.round(100 * Math.sqrt(v.all / self.val));
-      v.host = Math.round(100 * Math.sqrt(v.host / self.val));
+      v.all = Math.round(100 * Math.sqrt(v.all / self.v));
+      v.host = Math.round(100 * Math.sqrt(v.host / self.v));
       if (v.self) v.self = 100;
     });
     return res;
+  };
+
+  // Helper function to interpret element balance
+  const getElementInterpretation = (elements) => {
+    const self = elements.self;
+    const es = [...elements.es];
+    es[self.e] -= self.v;
+    const max = { v: 0 };
+    es.forEach((v, i) => {
+      if ((v ?? 0) > max.v) {
+        max.v = v;
+        max.e = i;
+      }
+    });
+    const personality10 = t(
+      `life-personality-10-${((max.e >> 1) - (self.e >> 1) + 5) % 5}-${
+        self.e % 2 === max.e % 2 ? 0 : 1
+      }`
+    );
+
+    const values = [
+      (es[0] ?? 0) + (es[1] ?? 0),
+      (es[2] ?? 0) + (es[3] ?? 0),
+      (es[4] ?? 0) + (es[5] ?? 0),
+      (es[6] ?? 0) + (es[7] ?? 0),
+      (es[8] ?? 0) + (es[9] ?? 0),
+    ];
+
+    // Calculate overall balance (standard deviation as a simple measure)
+    const avg =
+      values.reduce((sum, val) => sum + (val ?? 0), 0) / values.length;
+    const variance =
+      values.reduce((sum, val) => sum + Math.pow((val ?? 0) - avg, 2), 0) /
+      values.length;
+    const balance = Math.sqrt(variance);
+    const s = Math.round((elements.self.v - avg) / balance);
+    const personality5 = t(
+      `life-personality-5-${self.e >> 1}-${s <= -1 ? -1 : s >= 1 ? 1 : 0}`
+    );
+
+    const sigma = [],
+      assist = [],
+      sigMax = { v: -1 };
+    values.forEach((v, i) => {
+      if (!v && i !== self.e >> 1) assist.push(i);
+      const sig = Math.round((v - avg) / balance);
+      sigma.push(sig);
+      if (Math.abs(sig) > sigMax.v) {
+        // only get one
+        sigMax.v = Math.abs(sig);
+        sigMax.e = i;
+      }
+    });
+    if (sigma[sigMax.e] < 0) assist.push((sigMax.e - 1 + 5) % 5);
+    else assist.push((sigMax.e + 1) % 5);
+    if (s <= -1) assist.push(((self.e >> 1) - 1 + 5) % 5);
+    else if (s >= 1) assist.push(((self.e >> 1) + 1) % 5);
+    const suggestion = [];
+    [...new Set(assist)].forEach((v) =>
+      suggestion.push(t(`life-suggestion-${v}`))
+    );
+
+    return [
+      personality10,
+      personality5,
+      t("life-suggestion", { suggestion: suggestion.join(" ") }),
+    ];
   };
 
   // Get description for a life phase based on its intensity
@@ -224,6 +272,14 @@ const LifeChart = ({ userData }) => {
       <div className="life-header">
         <h2>{t("life-header")}</h2>
         <p>{t("life-desc")}</p>
+        {userData.latitude && userData.longitude && (
+          <div className="coordinates-info">
+            <span>
+              {t("life-place")}: {userData.latitude}, {userData.longitude}
+            </span>
+            <div className="coordinate-badge">{t("life-geo")}</div>
+          </div>
+        )}
       </div>
 
       <div className="elements-chart">
@@ -249,7 +305,7 @@ const LifeChart = ({ userData }) => {
                 fillOpacity={0.6}
               />
               <Radar
-                name={`${lifeData.elements.self.yin ? "🌜" : "🌞"}`}
+                name={`${lifeData.elements.self.e % 2 === 1 ? "🌜" : "🌞"}`}
                 dataKey="host"
                 stroke="#82ca9d"
                 fill="#82ca9d"
@@ -267,8 +323,10 @@ const LifeChart = ({ userData }) => {
         </div>
 
         <div className="elements-interpretation">
-          <h4>{t("life-5explain")}</h4>
-          <p>{getElementInterpretation(lifeData.elements)}</p>
+          {/* <h4>{t("life-5explain")}</h4> */}
+          {getElementInterpretation(lifeData.elements).map((v) => {
+            return <p>{v}</p>;
+          })}
         </div>
       </div>
 
@@ -357,47 +415,6 @@ const getCurrentPhaseDetails = (phases) => {
       )}
     </div>
   );
-};
-
-// Helper function to interpret element balance
-const getElementInterpretation = (elements) => {
-  // Find dominant and weakest elements
-  let dominant = "fire";
-  let weakest = "fire";
-
-  Object.entries(elements).forEach(([element, value]) => {
-    if (value > elements[dominant]) dominant = element;
-    if (value < elements[weakest]) weakest = element;
-  });
-
-  // Calculate overall balance (standard deviation as a simple measure)
-  const values = Object.values(elements);
-  const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
-  const variance =
-    values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) /
-    values.length;
-  const balance = Math.sqrt(variance);
-
-  // Interpretation based on dominant element and balance
-  const interpretations = {
-    fire: "Your chart shows strong Fire energy, indicating passion, creativity, and leadership potential. You likely approach life with enthusiasm and have a natural ability to inspire others.",
-    water:
-      "Water is your dominant element, suggesting emotional depth, intuition, and adaptability. You likely have a natural understanding of others' feelings and flow easily with life's changes.",
-    earth:
-      "Your Earth element predominance indicates practicality, reliability, and groundedness. You excel at creating stable foundations and bringing ideas into tangible reality.",
-    wood: "With Wood as your dominant element, you possess strong intellectual qualities, communication skills, and adaptability. You naturally connect ideas and people, seeing patterns others miss.",
-    metal:
-      "Your chart shows Metal as your strongest element, suggesting precision, discipline, and refinement. You excel at discernment and have a natural ability to distill wisdom from experience.",
-  };
-
-  const balanceComment =
-    balance < 10
-      ? "Your elements show remarkable harmony, suggesting versatility and balanced capabilities across life domains."
-      : "The variation between your elements indicates specialized strengths and potential growth areas.";
-
-  const weaknessComment = `Your ${weakest} element presents an opportunity for development. Consciously strengthening this aspect can bring greater wholeness to your life journey.`;
-
-  return `${interpretations[dominant]} ${balanceComment} ${weaknessComment}`;
 };
 
 export default LifeChart;
