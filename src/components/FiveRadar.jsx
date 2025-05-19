@@ -1,5 +1,5 @@
 import React from "react";
-import "./FiveRadar.css"
+import "./FiveRadar.css";
 import {
   Radar,
   PolarAngleAxis,
@@ -65,9 +65,21 @@ const FiveRadar = ({ elements }) => {
       return (
         <div className="radar-tooltip">
           <h4>{label}</h4>
-          {(payload[0].value ?? 0) > 0 ? <p style={{ color: '#8884d8' }}>{`${payload[1].name == "🌜" ? "🌞" : "🌜"}: ${payload[0].value - payload[1].value}`}</p> : ''}
-          {(payload[1].value ?? 0) > 0 ? <p style={{ color: '#82ca9d' }}>{`${payload[1].name}: ${payload[1].value}`}</p> : ''}
-          {(payload[2].value ?? 0) > 0 ? (<p style={{ color: 'red' }}>{`${payload[2].name}: ${payload[2].value}`}</p>) : ''}
+          {(payload[0].value ?? 0) > 0 && (
+            <p style={{ color: "#8884d8" }}>{`${
+              payload[1].name == "🌜" ? "🌞" : "🌜"
+            }: ${payload[0].value - payload[1].value}`}</p>
+          )}
+          {(payload[1].value ?? 0) > 0 && (
+            <p
+              style={{ color: "#82ca9d" }}
+            >{`${payload[1].name}: ${payload[1].value}`}</p>
+          )}
+          {(payload[2].value ?? 0) > 0 && (
+            <p
+              style={{ color: "red" }}
+            >{`${payload[2].name}: ${payload[2].value}`}</p>
+          )}
         </div>
       );
     }

@@ -1,0 +1,69 @@
+
+.life-20-tag {
+  flex: 1;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.life-20-tag:hover {
+  background-color: rgba(103, 58, 183, 0.05);
+  color: var(--text-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.life-20-tag.active {
+  color: var(--text-color);
+  background-color: #2c1a75;
+}
+
+
+.life-phase-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.life-tooltip {
+  background-color: #2a1b74;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+  padding: 0.8rem;
+  width: 100%;
+  max-width: 420px;
+  transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.life-tooltip h4 {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.life-tooltip h4::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7070, #ff9770);
+  border-radius: 3px;
+}
+
+.life-tooltip p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #aaa;
+}

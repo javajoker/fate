@@ -270,6 +270,9 @@ const parseSelf = (gen, year, month, day, hour) => {
   const lunisolar = new Lunisolar(
     moment.tz([year, month - 1, day, hour < 0 ? 0 : hour, 0], "Asia/Shanghai")
   );
+  const gender = gen == 1;
+  console.log(lunisolar.format("cY cM cD cH"), gender ? "坤造" : "乾造");
+
   const pillars = [];
   pillars.push(getStems(lunisolar.char8.year));
   pillars.push(getStems(lunisolar.char8.month));
@@ -286,12 +289,11 @@ const parseSelf = (gen, year, month, day, hour) => {
   const es = getElements(weight, pillars);
 
   // start life cast
-  const gender = gen == 1;
-  const now = new Date(),
-    forecast = new Date(now.setFullYear(now.getFullYear() + 3));
+  const now = new Date();
   const life = [];
-  console.log(lunisolar.format("cY cM cD cH"), gender ? "坤造" : "乾造");
-  let ydate = 起运交脱(lunisolar, gender);
+  let ydate = 起运交脱(lunisolar, gender),
+    y = lunisolar.diff(ydate, "y") + 1,
+    currentY = now.getFullYear() - ydate.toDate().getFullYear();
   const sb = 大运(lunisolar, gender);
   const seq2 = [];
   for (let j = 0; j < 2; ++j) {
@@ -299,11 +301,14 @@ const parseSelf = (gen, year, month, day, hour) => {
   }
   // calculate 80 years
   const sWeight = [],
-    eWeight = [];
+    eWeight = [],
+    运 = [];
+
   for (let i = 0; i < 80; ++i) {
     const p = JSON.parse(JSON.stringify(pillars)),
-      w = JSON.parse(JSON.stringify(weight));
-    initWeight2(p, w, [sb[Math.floor(i / 10)], ydate.char8.year], i % 10);
+      w = JSON.parse(JSON.stringify(weight)),
+      yid = Math.floor(i / 10);
+    initWeight2(p, w, [sb[yid], ydate.char8.year], i % 10);
     updateWeight(w, p, seq2, 1);
     const es2 = getElements(w, p);
     life.push({
@@ -312,21 +317,26 @@ const parseSelf = (gen, year, month, day, hour) => {
       self: w[2][0][0],
     });
     sWeight.push(w[2][0][0]);
+    if (!运[yid]) 运[yid] = { e: getStems(sb[yid])[0][0], v: 0 };
+    运[yid].v += w[2][0][0];
     es2.forEach((v, i) => {
       if (!eWeight[i]) eWeight[i] = [];
       eWeight[i].push(i == pillars[2][0][0] ? (v ?? 0) - w[2][0][0] : v ?? 0);
     });
     ydate = ydate.add(1, "y");
-    if (ydate.toDate() > forecast) break;
   }
   const esb = [];
   eWeight.forEach((v) => esb.push(getMargin(v)));
 
+  const start = 10 * Math.floor(currentY / 10),
+    life20 = life.slice(start - 10, start + 10);
   return {
     es,
     self: { e: pillars[2][0][0], v: weight[2][0][0] },
-    life,
+    life: life20,
     balance: { self: getMargin(sWeight), es: esb },
+    y,
+    y10: 运,
   };
 };
 

@@ -3,8 +3,9 @@ import "./LifeChart.css";
 import { useTranslation } from "react-i18next";
 import { fate, getPillarInfo } from "../api/api";
 import FiveRadar from "./FiveRadar";
+import Life20y from "./Life20y";
 import LifePhases from "./LifePhases";
-
+import CurrentPhase from "./CurrentPhase";
 
 const LifeChart = ({ userData }) => {
   const [lifeData, setLifeData] = useState(null);
@@ -18,59 +19,12 @@ const LifeChart = ({ userData }) => {
 
     const pillarInfo = getPillarInfo(userData);
     fate(pillarInfo).then((res) => {
-      console.log(res);
-      // Generate deterministic "random" data based on user input
-      const userHash = hashCode(
-        `${userData.name}-${userData.birthDate}-${userData.birthPlace}`
-      );
-
-      // Calculate life phases (ages 0-80 in 10-year segments)
-      const lifePhases = generateLifePhases(userHash);
-
-      // Calculate element strengths
-      const elements = res;
-
       setLifeData({
-        phases: lifePhases,
-        elements: elements,
+        elements: res,
       });
       setIsLoading(false);
     });
   }, [userData]);
-
-  // Helper function to generate a hash code from a string
-  const hashCode = (str) => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    return Math.abs(hash);
-  };
-
-  // Generate life phases based on the hash
-  const generateLifePhases = (hash) => {
-    const phases = [];
-    const baseValue = (hash % 30) + 50; // Base value between 50-80
-
-    for (let i = 0; i < 8; i++) {
-      const ageStart = i * 10;
-      const ageEnd = ageStart + 9;
-
-      // Fluctuate around the base value to create a natural curve
-      const modifier = ((hash >> (i * 3)) % 50) - 25;
-      const intensity = Math.min(100, Math.max(0, baseValue + modifier));
-
-      phases.push({
-        range: `${ageStart}-${ageEnd}`,
-        intensity: intensity,
-        description: getPhaseDescription(intensity, i),
-      });
-    }
-
-    return phases;
-  };
 
   // Helper function to interpret element balance
   const getElementInterpretation = (elements) => {
@@ -85,7 +39,8 @@ const LifeChart = ({ userData }) => {
       }
     });
     const personality10 = t(
-      `life-personality-10-${((max.e >> 1) - (self.e >> 1) + 5) % 5}-${self.e % 2 === max.e % 2 ? 0 : 1
+      `life-personality-10-${((max.e >> 1) - (self.e >> 1) + 5) % 5}-${
+        self.e % 2 === max.e % 2 ? 0 : 1
       }`
     );
 
@@ -138,68 +93,6 @@ const LifeChart = ({ userData }) => {
     ];
   };
 
-  // Get description for a life phase based on its intensity
-  const getPhaseDescription = (intensity, phaseIndex) => {
-    const phaseDescriptions = [
-      // Childhood (0-9)
-      [
-        "A challenging start to life requiring resilience and adaptation.",
-        "A balanced childhood with both nurturing support and growth challenges.",
-        "A fortunate childhood filled with opportunities and strong foundations.",
-      ],
-      // Youth (10-19)
-      [
-        "A period of significant challenges, identity formation, and necessary growth.",
-        "A time of self-discovery with balanced social and personal development.",
-        "A flourishing youth marked by achievements and strong relationships.",
-      ],
-      // Early Adulthood (20-29)
-      [
-        "A demanding phase requiring persistence through career and relationship tests.",
-        "A steady development period balancing career growth and personal life.",
-        "A prosperous time of significant opportunities and meaningful connections.",
-      ],
-      // Thirties (30-39)
-      [
-        "A transformative decade requiring difficult choices and realignment.",
-        "A period of consolidation and establishing deeper foundations.",
-        "A rewarding phase of abundance and expanded influence.",
-      ],
-      // Forties (40-49)
-      [
-        "A challenging midlife period calling for reevaluation and courage.",
-        "A balanced time of maturity and measured progress.",
-        "A peak phase of success and reaping rewards from earlier efforts.",
-      ],
-      // Fifties (50-59)
-      [
-        "A time of necessary transitions and overcoming unexpected obstacles.",
-        "A period of stability with gradual shifts toward new priorities.",
-        "A fulfilling decade of wisdom, influence, and enjoying achievements.",
-      ],
-      // Sixties (60-69)
-      [
-        "A phase requiring adaptation to changing health and life circumstances.",
-        "A balanced period of selective engagement and meaningful activities.",
-        "A gratifying time of sharing wisdom and enjoying life's pleasures.",
-      ],
-      // Seventies & Beyond (70-79)
-      [
-        "A time of facing limitations while finding new forms of meaning.",
-        "A period of graceful adaptation and cherishing relationships.",
-        "A blessed phase of continued vitality and leaving a lasting legacy.",
-      ],
-    ];
-
-    // Select low, medium, or high description based on intensity
-    let descriptionIndex;
-    if (intensity < 40) descriptionIndex = 0;
-    else if (intensity < 70) descriptionIndex = 1;
-    else descriptionIndex = 2;
-
-    return phaseDescriptions[phaseIndex][descriptionIndex];
-  };
-
   if (isLoading) {
     return (
       <div className="life-loading">
@@ -228,99 +121,33 @@ const LifeChart = ({ userData }) => {
         <h3>{t("life-5")}</h3>
         <FiveRadar elements={lifeData.elements} />
 
-
         <div className="elements-interpretation">
           {/* <h4>{t("life-5explain")}</h4> */}
-          {getElementInterpretation(lifeData.elements).map((v) => {
-            return <p>{v}</p>;
+          {getElementInterpretation(lifeData.elements).map((v, index) => {
+            return <p key={index}>{v}</p>;
           })}
         </div>
       </div>
 
       <div className="phase-details">
         <h3>{t("life-phase")}</h3>
-        {getCurrentPhaseDetails(lifeData.phases)}
+        <Life20y elements={lifeData.elements} />
+        <CurrentPhase
+          elements={lifeData.elements}
+          birth={new Date(userData.birthDate).getFullYear()}
+        />
       </div>
 
       <div className="life-chart">
         <h3>{t("life-phases")}</h3>
         <LifePhases elements={lifeData.elements} />
-        <div className="phases-container">
-          {lifeData.phases.map((phase, index) => (
-            <div className="phase-item" key={index}>
-              <div className="phase-bar-container">
-                <div
-                  className="phase-bar"
-                  style={{ height: `${phase.intensity}%` }}
-                ></div>
-              </div>
-              <div className="phase-label">{phase.range}</div>
-            </div>
-          ))}
-        </div>
 
-        <div className="scale">
+        {/* <div className="scale">
           <div>Prosperity</div>
           <div>Balance</div>
           <div>Challenge</div>
-        </div>
+        </div> */}
       </div>
-    </div>
-  );
-};
-
-// Helper function to get current or next phase details based on user's age
-const getCurrentPhaseDetails = (phases) => {
-  // Calculate user's age
-  // In a real app, this would use the userData birthDate
-  const currentAge = 35; // Example age
-
-  let currentPhase = null;
-  let nextPhase = null;
-
-  for (let i = 0; i < phases.length; i++) {
-    const range = phases[i].range;
-    const [start, end] = range.split("-").map((num) => parseInt(num));
-
-    if (currentAge >= start && currentAge <= end) {
-      currentPhase = phases[i];
-      nextPhase = i < phases.length - 1 ? phases[i + 1] : null;
-      break;
-    }
-  }
-
-  if (!currentPhase) {
-    // If age is beyond our phases or something went wrong
-    return <p>Unable to determine your current life phase.</p>;
-  }
-
-  return (
-    <div className="current-phase">
-      <div className="phase-card">
-        <h4>Ages {currentPhase.range} (Current)</h4>
-        <div className="phase-intensity">
-          <div
-            className="intensity-bar"
-            style={{ width: `${currentPhase.intensity}%` }}
-          ></div>
-          <span>{currentPhase.intensity}%</span>
-        </div>
-        <p>{currentPhase.description}</p>
-      </div>
-
-      {nextPhase && (
-        <div className="phase-card next">
-          <h4>Ages {nextPhase.range} (Upcoming)</h4>
-          <div className="phase-intensity">
-            <div
-              className="intensity-bar"
-              style={{ width: `${nextPhase.intensity}%` }}
-            ></div>
-            <span>{nextPhase.intensity}%</span>
-          </div>
-          <p>{nextPhase.description}</p>
-        </div>
-      )}
     </div>
   );
 };
