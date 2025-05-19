@@ -3,15 +3,8 @@ import "./LifeChart.css";
 import { useTranslation } from "react-i18next";
 import { fate, getPillarInfo } from "../api/api";
 import FiveRadar from "./FiveRadar";
-import {
-  Radar,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadarChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import LifePhases from "./LifePhases";
+
 
 const LifeChart = ({ userData }) => {
   const [lifeData, setLifeData] = useState(null);
@@ -40,7 +33,6 @@ const LifeChart = ({ userData }) => {
       setLifeData({
         phases: lifePhases,
         elements: elements,
-        radar: toRadarData(elements),
       });
       setIsLoading(false);
     });
@@ -80,55 +72,6 @@ const LifeChart = ({ userData }) => {
     return phases;
   };
 
-  const toRadarData = (elements) => {
-    const self = elements.self,
-      yy = self.e % 2;
-    const es = elements.es;
-    const res = [
-      {
-        subject: "🪵🌱",
-        all: (es[0] ?? 0) + (es[1] ?? 0),
-        host: es[0 + yy] ?? 0,
-        self: self.e >> 1 === 0 ? self.v : 0,
-        fullMark: 100,
-      },
-      {
-        subject: "🌋🔥",
-        all: (es[2] ?? 0) + (es[3] ?? 0),
-        host: es[2 + yy] ?? 0,
-        self: self.e >> 1 === 1 ? self.v : 0,
-        fullMark: 100,
-      },
-      {
-        subject: "⛰️🛤",
-        all: (es[4] ?? 0) + (es[5] ?? 0),
-        host: es[4 + yy] ?? 0,
-        self: self.e >> 1 === 2 ? self.v : 0,
-        fullMark: 100,
-      },
-      {
-        subject: "🗡️🧈",
-        all: (es[6] ?? 0) + (es[7] ?? 0),
-        host: es[6 + yy] ?? 0,
-        self: self.e >> 1 === 3 ? self.v : 0,
-        fullMark: 100,
-      },
-      {
-        subject: "🌊💦",
-        all: (es[8] ?? 0) + (es[9] ?? 0),
-        host: es[8 + yy] ?? 0,
-        self: self.e >> 1 === 4 ? self.v : 0,
-        fullMark: 100,
-      },
-    ];
-    res.forEach((v) => {
-      v.all = Math.round(100 * Math.sqrt(v.all / self.v));
-      v.host = Math.round(100 * Math.sqrt(v.host / self.v));
-      if (v.self) v.self = 100;
-    });
-    return res;
-  };
-
   // Helper function to interpret element balance
   const getElementInterpretation = (elements) => {
     const self = elements.self;
@@ -142,8 +85,7 @@ const LifeChart = ({ userData }) => {
       }
     });
     const personality10 = t(
-      `life-personality-10-${((max.e >> 1) - (self.e >> 1) + 5) % 5}-${
-        self.e % 2 === max.e % 2 ? 0 : 1
+      `life-personality-10-${((max.e >> 1) - (self.e >> 1) + 5) % 5}-${self.e % 2 === max.e % 2 ? 0 : 1
       }`
     );
 
@@ -284,43 +226,8 @@ const LifeChart = ({ userData }) => {
 
       <div className="elements-chart">
         <h3>{t("life-5")}</h3>
-        {/* <FiveRadar elements={lifeData.elements} /> */}
-        <div className="radar-chart" style={{ height: "min(400px,70vw)" }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart
-              cx="50%"
-              cy="50%"
-              outerRadius="80%"
-              data={lifeData.radar}
-            >
-              <PolarGrid />
-              <PolarAngleAxis dataKey="subject" />
-              <PolarRadiusAxis angle={54} domain={[0, "dataMax"]} />
-              <Tooltip />
-              <Radar
-                name="ALL"
-                dataKey="all"
-                stroke="#8884d8"
-                fill="#8884d8"
-                fillOpacity={0.6}
-              />
-              <Radar
-                name={`${lifeData.elements.self.e % 2 === 1 ? "🌜" : "🌞"}`}
-                dataKey="host"
-                stroke="#82ca9d"
-                fill="#82ca9d"
-                fillOpacity={0.6}
-              />
-              <Radar
-                name="👤"
-                dataKey="self"
-                stroke="red"
-                fill="red"
-                fillOpacity={0.6}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
+        <FiveRadar elements={lifeData.elements} />
+
 
         <div className="elements-interpretation">
           {/* <h4>{t("life-5explain")}</h4> */}
@@ -337,6 +244,7 @@ const LifeChart = ({ userData }) => {
 
       <div className="life-chart">
         <h3>{t("life-phases")}</h3>
+        <LifePhases elements={lifeData.elements} />
         <div className="phases-container">
           {lifeData.phases.map((phase, index) => (
             <div className="phase-item" key={index}>

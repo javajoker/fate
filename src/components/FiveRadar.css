@@ -1,0 +1,47 @@
+.radar-chart {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.radar-chart svg {
+  width: 100%;
+  height: auto;
+}
+
+.radar-tooltip {
+  background-color: #3f0f78;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+  padding: 0.8rem;
+  width: 100%;
+  max-width: 420px;
+  transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.radar-tooltip h4 {
+  color: var(--danger-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.radar-tooltip h4::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7070, #ff9770);
+  border-radius: 3px;
+}
+
+.radar-tooltip p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #aaa;
+}

@@ -58,7 +58,6 @@ const UserInfo = ({
   };
 
   const selectLocation = (suggestion) => {
-    console.log(suggestion);
     setFormData({
       ...formData,
       birthPlace: suggestion.place,
@@ -280,7 +279,7 @@ const UserInfo = ({
             <div className="profile-details-card">
               <div className="profile-header">
                 <h4>
-                  [{userData.gender ? t("gender-f") : t("gender-m")}]{" "}
+                  [{userData.gender == 1 ? t("gender-f") : t("gender-m")}]{" "}
                   {userData.name}
                 </h4>
                 <span className="relationship-tag">
@@ -336,7 +335,7 @@ const UserInfo = ({
                     <div className="profile-card" key={index}>
                       <div className="profile-header">
                         <h4>
-                          [{profile.gender ? t("gender-f") : t("gender-m")}]{" "}
+                          [{profile.gender == 1 ? t("gender-f") : t("gender-m")}]{" "}
                           {profile.name}
                         </h4>
                         <span className="relationship-tag">

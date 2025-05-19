@@ -178,17 +178,6 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-.radar-chart {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto 2rem;
-}
-
-.radar-chart svg {
-  width: 100%;
-  height: auto;
-}
-
 .elements-interpretation {
   background-color: #3f0f78;
   border-radius: 8px;

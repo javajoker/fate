@@ -51,7 +51,7 @@ const Dashboard = ({
         <div className="user-info-brief">
           <div className="tab active">
             <span className="user-name">
-              {/* [{userData.gender ? t("gender-f") : t("gender-m")}]  */}
+              {/* [{userData.gender == 1 ? t("gender-f") : t("gender-m")}]  */}
               {userData.name}
             </span>
             {/* <span className="user-birthdate">

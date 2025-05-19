@@ -73,7 +73,7 @@ const 五行生克数 = (x, y, wx, wy, 柱距) => {
   });
 };
 
-const updateWeight = (weight, pillars, seq) => {
+const updateWeight = (weight, pillars, seq, distance) => {
   // branch
   seq.forEach((s) => {
     五行生克数(
@@ -81,7 +81,7 @@ const updateWeight = (weight, pillars, seq) => {
       pillars[s[1]][1],
       weight[s[0]][1],
       weight[s[1]][1],
-      Math.abs(s[0] - s[1])
+      distance ?? Math.abs(s[0] - s[1])
     );
   });
   // stem - branch
@@ -91,14 +91,14 @@ const updateWeight = (weight, pillars, seq) => {
       pillars[s[1]][1],
       weight[s[0]][0],
       weight[s[1]][1],
-      Math.abs(s[0] - s[1]) + 1
+      distance ?? Math.abs(s[0] - s[1]) + 1
     );
     五行生克数(
       pillars[s[0]][1],
       pillars[s[1]][0],
       weight[s[0]][1],
       weight[s[1]][0],
-      Math.abs(s[0] - s[1]) + 1
+      distance ?? Math.abs(s[0] - s[1]) + 1
     );
   });
   // stem
@@ -108,7 +108,7 @@ const updateWeight = (weight, pillars, seq) => {
       pillars[s[1]][0],
       weight[s[0]][0],
       weight[s[1]][0],
-      Math.abs(s[0] - s[1])
+      distance ?? Math.abs(s[0] - s[1])
     );
   });
 };
@@ -257,7 +257,16 @@ const initWeight2 = (pillars, weight, extraPillars, 大运经年) => {
   });
 };
 
-const parseSelf = (gender, year, month, day, hour) => {
+const getMargin = (weights) => {
+  const avg =
+    weights.reduce((sum, val) => sum + (val ?? 0), 0) / weights.length;
+  const variance =
+    weights.reduce((sum, val) => sum + Math.pow((val ?? 0) - avg, 2), 0) /
+    weights.length;
+  const balance = Math.sqrt(variance);
+  return { top: avg + balance, bottom: avg - balance };
+};
+const parseSelf = (gen, year, month, day, hour) => {
   const lunisolar = new Lunisolar(
     moment.tz([year, month - 1, day, hour < 0 ? 0 : hour, 0], "Asia/Shanghai")
   );
@@ -276,6 +285,8 @@ const parseSelf = (gender, year, month, day, hour) => {
   updateWeight(weight, pillars, seq);
   const es = getElements(weight, pillars);
 
+  // start life cast
+  const gender = gen == 1;
   const now = new Date(),
     forecast = new Date(now.setFullYear(now.getFullYear() + 3));
   const life = [];
@@ -286,21 +297,37 @@ const parseSelf = (gender, year, month, day, hour) => {
   for (let j = 0; j < 2; ++j) {
     for (let i = 0; i < pillars.length; ++i) seq2.push([pillars.length + j, i]);
   }
-  for (let i = 0; i < 120; ++i) {
+  // calculate 80 years
+  const sWeight = [],
+    eWeight = [];
+  for (let i = 0; i < 80; ++i) {
     const p = JSON.parse(JSON.stringify(pillars)),
       w = JSON.parse(JSON.stringify(weight));
     initWeight2(p, w, [sb[Math.floor(i / 10)], ydate.char8.year], i % 10);
-    updateWeight(w, p, seq2);
+    updateWeight(w, p, seq2, 1);
     const es2 = getElements(w, p);
     life.push({
       date: ydate.format("YYYY/MM/DD"),
       es: es2,
-      self: w[2][0],
+      self: w[2][0][0],
+    });
+    sWeight.push(w[2][0][0]);
+    es2.forEach((v, i) => {
+      if (!eWeight[i]) eWeight[i] = [];
+      eWeight[i].push(i == pillars[2][0][0] ? (v ?? 0) - w[2][0][0] : v ?? 0);
     });
     ydate = ydate.add(1, "y");
     if (ydate.toDate() > forecast) break;
   }
-  return { es, self: { e: pillars[2][0][0], v: weight[2][0][0] }, life };
+  const esb = [];
+  eWeight.forEach((v) => esb.push(getMargin(v)));
+
+  return {
+    es,
+    self: { e: pillars[2][0][0], v: weight[2][0][0] },
+    life,
+    balance: { self: getMargin(sWeight), es: esb },
+  };
 };
 
 export { parseSelf };

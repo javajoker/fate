@@ -229,7 +229,7 @@ const UserForm = ({ onSubmit, profiles, switchProfile }) => {
                   onClick={() => switchProfile(profile)}
                 >
                   <div className="profile-name">
-                    [{profile.gender ? t("gender-f") : t("gender-m")}]{" "}
+                    [{profile.gender == 1 ? t("gender-f") : t("gender-m")}]{" "}
                     {profile.name}
                   </div>
                   <div className="profile-details">
