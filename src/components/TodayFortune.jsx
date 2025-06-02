@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TodayFortune.css";
 import { useTranslation } from "react-i18next";
+import LiuyaoDivination from './LiuyaoDivination'
 
 const TodayFortune = ({ userData }) => {
   const [fortune, setFortune] = useState(null);
@@ -81,21 +82,21 @@ const TodayFortune = ({ userData }) => {
         <p>{fortune.advice}</p>
       </div>
 
-      {/* <div className="fortune-extras">
+      <div className="fortune-extras">
         <div className="lucky-item">
           <h4>Lucky Color</h4>
           <div
             className="color-circle"
             style={{ backgroundColor: fortune.color }}
           ></div>
-          <span>{fortune.color}</span>
         </div>
 
         <div className="lucky-item">
           <h4>Lucky Number</h4>
           <div className="number-circle">{fortune.number}</div>
         </div>
-      </div> */}
+      </div>
+      <LiuyaoDivination/>
     </div>
   );
 };

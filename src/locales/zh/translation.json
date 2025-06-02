@@ -118,5 +118,27 @@
   "form-hint": "請輸入姓名、性別、出生日期和出生地！",
   "form-header": "開始您的宇宙之旅",
   "form-desc": "輸入您的出生信息，探索您的個人運勢",
-  "form-submit": "揭示個人運勢"
+  "form-submit": "揭示個人運勢",
+
+  "startMessage": "点击下方按钮开始占卜",
+  "startDivination": "开始占卜",
+  "divining": "占卜中...",
+  "newDivination": "重新占卜",
+  "throwingCoins": "正在为第",
+  "hexagramReading": "卦象解读",
+  "line": "爻",
+  "changing": "变",
+  "description": "六爻占卜源于《易经》，通过投掷硬币模拟蓍草占卜法。\n每一爻由三次投币结果决定，六爻成卦。\n仅供娱乐参考，不可迷信。",
+  "hexagrams": {
+    "qian": { "name": "乾", "meaning": "刚健中正，大吉大利，事业亨通" },
+    "kun": { "name": "坤", "meaning": "包容顺从，厚德载物，宜守不宜攻" },
+    "zhun": { "name": "屯", "meaning": "初始困难，需要坚持，终获成功" },
+    "meng": { "name": "蒙", "meaning": "启蒙教化，循序渐进，不可急进" },
+    "xu": { "name": "需", "meaning": "等待时机，坚持正道，必有收获" },
+    "song": { "name": "讼", "meaning": "争端纷争，宜和解，避免硬碰硬" },
+    "default": {
+      "name": "待解",
+      "meaning": "此卦象需要专业解读，建议咨询易学专家"
+    }
+  }
 }
