@@ -128,35 +128,5 @@
   "hexagramReading": "Hexagram Reading",
   "line": "Line",
   "changing": "Changing",
-  "description": "Six Lines divination originates from the I-Ching, simulating the traditional yarrow stalk method by coin tossing.\nEach line is determined by three coin tosses, forming a hexagram with six lines.",
-  "hexagrams": {
-    "qian": {
-      "name": "Qian (Heaven)",
-      "meaning": "Strong and righteous, great fortune, prosperous career"
-    },
-    "kun": {
-      "name": "Kun (Earth)",
-      "meaning": "Receptive and obedient, thick virtue carries all, better to maintain than attack"
-    },
-    "zhun": {
-      "name": "Zhun (Difficulty)",
-      "meaning": "Initial difficulties, need persistence, eventual success"
-    },
-    "meng": {
-      "name": "Meng (Youthful Folly)",
-      "meaning": "Enlightenment and education, step by step, do not rush"
-    },
-    "xu": {
-      "name": "Xu (Waiting)",
-      "meaning": "Wait for opportunity, persist in righteousness, will have harvest"
-    },
-    "song": {
-      "name": "Song (Conflict)",
-      "meaning": "Disputes and conflicts, seek reconciliation, avoid confrontation"
-    },
-    "default": {
-      "name": "Unknown Hexagram",
-      "meaning": "This hexagram requires professional interpretation, consult an I-Ching expert"
-    }
-  }
+  "description": "Six Lines divination originates from the I-Ching, simulating the traditional yarrow stalk method by coin tossing.\nEach line is determined by three coin tosses, forming a hexagram with six lines."
 }

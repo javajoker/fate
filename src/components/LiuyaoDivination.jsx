@@ -1,17 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Coins, RotateCcw, Book, Star, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import "./LiuyaoDivination.css";
-import { iching_content, iching_list, iching_place } from "../api/iching";
+import {
+  iching_list,
+  iching_back,
+  iching_pure,
+  iching_travel,
+} from "../api/iching-base";
+import {
+  iching_abbr as iching_abbr_zh,
+  iching_content as iching_content_zh,
+  iching_place as iching_place_zh,
+} from "../api/iching.zh-TW";
+import {
+  iching_abbr as iching_abbr_en,
+  iching_content as iching_content_en,
+  iching_place as iching_place_en,
+} from "../api/iching.en";
 
-const LiuyaoDivination = () => {
+const LiuyaoDivination = ({ onUpdate }) => {
   const [hexagram, setHexagram] = useState([]);
   const [isThrowingCoins, setIsThrowingCoins] = useState(false);
   const [currentLine, setCurrentLine] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [language, setLanguage] = useState("en");
+  const [interpretation, setInterpretataion] = useState({});
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    if (!showResult || !onUpdate) return;
+    getHexagramInterpretation();
+  }, [showResult]);
+
+  useEffect(() => {
+    onUpdate(interpretation);
+  }, [interpretation]);
 
   // Throw coins to get lines
   const throwCoins = async () => {
@@ -53,11 +77,27 @@ const LiuyaoDivination = () => {
     setHexagram([]);
     setShowResult(false);
     setCurrentLine(0);
+    setInterpretataion({});
   };
 
   // Get hexagram interpretation
   const getHexagramInterpretation = () => {
     if (hexagram.length !== 6) return null;
+
+    let iching_abbr, iching_content, iching_place;
+    switch (i18n.language) {
+      case "zh":
+        iching_abbr = iching_abbr_zh;
+        iching_content = iching_content_zh;
+        iching_place = iching_place_zh;
+        break;
+      case "en":
+        iching_abbr = iching_abbr_en;
+        iching_content = iching_content_en;
+        iching_place = iching_place_en;
+        break;
+    }
+
     const gram1 = hexagram.map((line) => line.value).join(""),
       gram2 = hexagram
         .map((line) => (line.changing ? (line.value ? 0 : 1) : line.value))
@@ -68,15 +108,62 @@ const LiuyaoDivination = () => {
         changings.push(i);
       }
     });
-    const meaning = [],
-      name = [];
-    changings.forEach((i) => {
-      meaning.push(iching_content[iching_list.indexOf(gram1) * 7 + i]);
-      meaning.push(iching_content[iching_list.indexOf(gram2) * 7 + i]);
-      name.push(iching_place[i]);
-    });
+    const status = [],
+      now = [],
+      future = [];
 
-    return { name, meaning };
+    if (changings.length > 0) {
+      changings.forEach((i) => {
+        status.push(iching_place[i]);
+        const id1 = iching_list.indexOf(gram1) * 7 + i,
+          id2 = iching_list.indexOf(gram2) * 7 + i;
+        now.push(`(${iching_abbr[id1]}) ${iching_content[id1]}`);
+        future.push(`(${iching_abbr[id2]}) ${iching_content[id2]}`);
+      });
+    } else {
+      let i = 1;
+      if (iching_pure.indexOf(gram1) >= 0) {
+        i = 6;
+      } else if (iching_travel.indexOf(gram1) >= 0) {
+        i = 4;
+      } else if (iching_back.indexOf(gram1) >= 0) {
+        i = 3;
+      } else {
+        const s =
+          ((hexagram[0].value == hexagram[3].value ? 0 : 1) << 2) &
+          ((hexagram[1].value == hexagram[4].value ? 0 : 1) << 1) &
+          ((hexagram[2].value == hexagram[5].value ? 0 : 1) << 0);
+        switch (s) {
+          case 4:
+            i = 1;
+            break;
+          case 3:
+            i = 4;
+            break;
+          case 2:
+            i = 3;
+            break;
+          case 5:
+            i = 4;
+            break;
+          case 1:
+            i = 5;
+            break;
+          case 6:
+            i = 2;
+            break;
+          case 7:
+            i = 3;
+            break;
+        }
+      }
+      const id1 = iching_list.indexOf(gram1) * 7 + i,
+        id2 = iching_list.indexOf(gram1) * 7 + 1 + ((i + 2) % 6);
+      now.push(`(${iching_abbr[id1]}) ${iching_content[id1]}`);
+      future.push(`(${iching_abbr[id2]}) ${iching_content[id2]}`);
+    }
+
+    setInterpretataion({ status, now, future });
   };
 
   return (
@@ -143,36 +230,12 @@ const LiuyaoDivination = () => {
             <div className="coin-animation">
               <Coins className="spinning-coin" size={24} />
               <p className="coin-text">
-                {language === "en"
-                  ? `${t("throwingCoins")} ${currentLine + 1}...`
-                  : `${t("throwingCoins")} ${currentLine + 1} ${t(
-                      "line"
-                    )}投币...`}
+                {`${t("throwingCoins")} ${currentLine + 1} ${t("line")}...`}
               </p>
             </div>
           )}
         </div>
       </div>
-
-      {/* Divination Result */}
-      {showResult && (
-        <div className="result-section">
-          <h3 className="result-title">{t("hexagramReading")}</h3>
-          {(() => {
-            const interpretation = getHexagramInterpretation();
-            return interpretation ? (
-              <div className="result-content">
-                <div className="hexagram-name">{interpretation.name}</div>
-                {interpretation.meaning.map((v) => (
-                  <p className="hexagram-meaning">{v}</p>
-                ))}
-              </div>
-            ) : (
-              <p className="hexagram-meaning">Loading interpretation...</p>
-            );
-          })()}
-        </div>
-      )}
 
       {/* Control Buttons */}
       <div className="controls">
@@ -184,18 +247,12 @@ const LiuyaoDivination = () => {
           <Coins size={20} />
           <span>{isThrowingCoins ? t("divining") : t("startDivination")}</span>
         </button>
-
-        {hexagram.length > 0 && (
+        {Object.keys(interpretation).length > 0 && (
           <button onClick={reset} className="secondary-button">
             <RotateCcw size={18} />
             <span>{t("newDivination")}</span>
           </button>
         )}
-      </div>
-
-      {/* Description */}
-      <div className="description">
-        <p className="description-text">{t("description")}</p>
       </div>
     </div>
   );
